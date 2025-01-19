@@ -1,16 +1,14 @@
-import shopLogo from './assets/shop.svg'
 import './App.css'
+import { AuthProvider } from './context/AuthProvider';
+import Routes from './routes';
 
 function App() {
 
   return (
-    <>
-      <div>
-          <img src={shopLogo} className="logo" alt="Shop logo" />
-          <h1>Shop App</h1>
-      </div>
-    </>
-  )
+      <AuthProvider >
+          <Routes />
+      </AuthProvider>
+  );
 }
 
 export default App

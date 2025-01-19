@@ -1,0 +1,29 @@
+header {
+    background-color: black;
+    padding: 8px;
+}
+
+header .logo {
+    width: 56px;
+}
+
+header .title {
+    font-size: 2rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+header .nav-login a {
+    color: #ffe600;
+    font-weight: 500;
+    text-decoration: inherit;
+}
+
+header .nav-login a:hover {
+    color: #ffa600;
+}
+
+header .username {
+        color: #ffe600;
+        font-weight: 500;
+}
