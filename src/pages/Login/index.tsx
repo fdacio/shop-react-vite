@@ -5,7 +5,7 @@ import { Alert, Button, Card, Col, Container, InputGroup, Row, Spinner } from 'r
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
-import { AuthError, LoginData as LoginPayload } from '../../context/AuthProvider/types';
+import { AuthError, LoginPayload } from '../../context/AuthProvider/types';
 import { useAuth } from '../../context/AuthProvider/useAuth';
 
 const Login: React.FC = () => {
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
     return (
 
         <>
-            <Header />
+      
             <Container className='mt-5'>
                 <Row>
                     <Col md={{ span: 4, offset: 4 }}>

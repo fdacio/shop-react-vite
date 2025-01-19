@@ -48,8 +48,8 @@ const Menu: React.FC = () => {
                     { (!auth.signed) ?
                     <Nav.Link href="/login">Login</Nav.Link>
                     :<>
-                    <Nav.Link href="#">{auth.user?.nome}</Nav.Link>
-                    <Nav.Link href="" onClick={handleLogout}>Sair</Nav.Link>
+                    <Nav.Link href="#" className='fw-bold'>{auth.user?.nome}</Nav.Link>
+                    <Nav.Link href="#" onClick={handleLogout}>Sair</Nav.Link>
                     </>
                     }
                 </Nav>

@@ -1,0 +1,16 @@
+.product-card {
+    width: 400px;
+    max-height: 300px;
+}
+
+.product-card .descricao {
+    overflow-y: scroll;
+    max-height: 100px;
+}
+
+.product-card .nome {
+    font-weight: bold;
+}
+.product-card .preco {
+    font-weight: bold;
+}

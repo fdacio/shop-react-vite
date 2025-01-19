@@ -1,32 +1,32 @@
 import { createContext, useEffect, useState } from 'react';
-import { AuthContextData, AuthContextChildrens, UserApi, LoginData } from './types';
-import api from '../../services/api';
+import { AuthContextData, AuthContextChildrens, LoginPayload } from './types';
 import { getSession, setSession } from './session';
+import { ApiUser } from '../ApiProvider/types';
+import { useApi } from '../ApiProvider/useApi';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider = ({ children } :AuthContextChildrens ) => {
-    
-    const [user, setUser] = useState<UserApi | null>(null);
+export const AuthProvider = ({ children }: AuthContextChildrens) => {
 
-    async function SignIn(data: LoginData) {
+    const api = useApi();
+
+    const [user, setUser] = useState<ApiUser | null>(null);
+
+    async function SignIn(data: LoginPayload) {
 
         try {
 
-            const responseLogin = await api.post('/auth/login', data);
+            const responseToken = await api.RequestLogin(data);
+            const apiUser: ApiUser = {};
+            apiUser.token = responseToken.token;
+            setSession(apiUser);
 
-            if (responseLogin.data.token) {
-                api.defaults.headers.Authorization = `Bearer ${responseLogin.data.token}`
-                const responseUser = await api.post('/auth/user/authenticated');
-                const userApi: UserApi = {
-                    nome: responseUser.data.nome,
-                    email: responseUser.data.email,
-                    token: responseLogin.data.token,
-                    rules: responseUser.data.rules
-                }
-
-                setUser(userApi);
-                setSession(userApi);
+            if (responseToken.token) {
+                const responseUser = await api.RequestUserAuthenticated();
+                apiUser.nome = responseUser.nome;
+                apiUser.email = responseUser.email;
+                apiUser.rules = responseUser.rules;
+                setUser(apiUser);
             }
 
         } catch (excpetion: any) {
@@ -38,10 +38,10 @@ export const AuthProvider = ({ children } :AuthContextChildrens ) => {
         setUser(null);
         setSession(null);
     }
- 
-    useEffect(()=>{
+
+    useEffect(() => {
         setUser(getSession());
-    },[]);
+    }, []);
 
     return (
         <AuthContext.Provider value={{ SignIn, SignOut, user, signed: Boolean(user) }}>
@@ -51,4 +51,6 @@ export const AuthProvider = ({ children } :AuthContextChildrens ) => {
 };
 
 export default AuthContext;
+
+
 

@@ -1,20 +1,15 @@
 import { ReactNode } from "react";
+import { ApiUser } from "../ApiProvider/types";
 
 export interface AuthContextData {
-    SignIn(data: LoginData): Promise<void>;
+    SignIn(data: LoginPayload): Promise<void>;
     SignOut: () => void;
-    user: UserApi | null,
+    user: ApiUser | null,
     signed: boolean;
 }
 
-export interface UserApi {
-    nome: string;
-    email: string;
-    token: string;
-    rules: [{id:number,nome:string}];
-}
 
-export interface LoginData {
+export interface LoginPayload {
     username: string;
     password: string;
 }
@@ -25,5 +20,5 @@ export interface AuthContextChildrens {
 
 export interface AuthError {
     message: string;
-    fields: LoginData;
+    fields: LoginPayload;
 }
