@@ -8,7 +8,7 @@ const Home: React.FC = () => {
             <Header />
             <Menu />
             <div>
-
+                Grind de Produtos
             </div>
 
         </>

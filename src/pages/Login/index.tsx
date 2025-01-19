@@ -1,9 +1,11 @@
+import { faAt, faKey } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import { Alert, Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, InputGroup, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
-import { AuthError, LoginData } from '../../context/AuthProvider/types';
+import { AuthError, LoginData as LoginPayload } from '../../context/AuthProvider/types';
 import { useAuth } from '../../context/AuthProvider/useAuth';
 
 const Login: React.FC = () => {
@@ -20,20 +22,24 @@ const Login: React.FC = () => {
 
         setIsLoading(true);
 
-        const payload: LoginData = {
-            username: email,
-            password: password
-        }
-
         try {
-            await auth.SignIn(payload);
-            navigate("/");        
-        } catch(error: any) {
+            await auth.SignIn(parseLoginPayload({email, password}));
+            navigate("/");
+        } catch (error: any) {
             setError(error.response.data);
         }
 
         setIsLoading(false);
-    
+
+    }
+
+    function parseLoginPayload({email, password} : {email: string, password: string}):LoginPayload {
+        const payload: LoginPayload = {
+            username: email,
+            password: password
+        }
+        return payload;
+
     }
 
     return (
@@ -55,32 +61,38 @@ const Login: React.FC = () => {
                                 <Form>
                                     <Form.Group className="mb-3">
                                         <Form.Label htmlFor="email">Email</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            id="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)} />
-                                        {
-                                            (error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>
-                                        }
+                                        <InputGroup>
+                                            <InputGroup.Text>
+                                                <FontAwesomeIcon icon={faAt} />
+                                            </InputGroup.Text>
+                                            <Form.Control
+                                                type="email"
+                                                id="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)} />
+                                            {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>}
+                                        </InputGroup>
                                     </Form.Group>
                                     <Form.Group >
                                         <Form.Label htmlFor="password">Password</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            id="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)} />
-                                        {
-                                            (error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password}</small>
-                                        }
+                                        <InputGroup>
+                                            <InputGroup.Text>
+                                                <FontAwesomeIcon icon={faKey} />
+                                            </InputGroup.Text>
+                                            <Form.Control
+                                                type="password"
+                                                id="password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)} />
+                                                {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password}</small>}
+                                        </InputGroup>
                                     </Form.Group>
                                 </Form>
                             </Card.Body>
                             <Card.Footer className='d-grid gap-2'>
                                 <Button variant="dark" onClick={handleLogin} disabled={isLoading}>
                                     {(isLoading)
-                                        ?<>
+                                        ? <>
                                             <Spinner
                                                 as="span"
                                                 animation="grow"
