@@ -1,8 +1,8 @@
-import { UserApi } from "./types";
+import { ApiUser } from "../ApiProvider/types";
 
 const keySession = 'shop-user';
 
-export function setSession(user: UserApi | null) {
+export function setSession(user: ApiUser | null) {
     localStorage.setItem(keySession, JSON.stringify(user));
 }
 

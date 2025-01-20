@@ -1,14 +1,15 @@
 import { faAt, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, Button, Card, Col, Container, InputGroup, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
+import Menu from '../../components/Menu';
 import { AuthError, LoginPayload } from '../../context/AuthProvider/types';
 import { useAuth } from '../../context/AuthProvider/useAuth';
 
-const Login: React.FC = () => {
+const Login = () => {
 
     const auth = useAuth();
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Login: React.FC = () => {
         setIsLoading(true);
 
         try {
-            await auth.SignIn(parseLoginPayload({email, password}));
+            await auth.SignIn(parseLoginPayload({ email, password }));
             navigate("/");
         } catch (error: any) {
             setError(error.response.data);
@@ -33,7 +34,7 @@ const Login: React.FC = () => {
 
     }
 
-    function parseLoginPayload({email, password} : {email: string, password: string}):LoginPayload {
+    function parseLoginPayload({ email, password }: { email: string, password: string }): LoginPayload {
         const payload: LoginPayload = {
             username: email,
             password: password
@@ -45,22 +46,24 @@ const Login: React.FC = () => {
     return (
 
         <>
-      
+            <Header />
+            <Menu />
+
             <Container className='mt-5'>
                 <Row>
                     <Col md={{ span: 4, offset: 4 }}>
                         {
-                            (error != null) &&
+                            (error != null && error.fields == undefined) &&
                             <Alert variant="danger">
                                 {error.message}
                             </Alert>
                         }
                         <Card className="w-100">
-                            <Card.Header>Login</Card.Header>
+                            <Card.Header className="text-center fw-bold">Login</Card.Header>
                             <Card.Body>
                                 <Form>
                                     <Form.Group className="mb-3">
-                                        <Form.Label htmlFor="email">Email</Form.Label>
+                                        <Form.Label htmlFor="email">Username</Form.Label>
                                         <InputGroup>
                                             <InputGroup.Text>
                                                 <FontAwesomeIcon icon={faAt} />
@@ -70,8 +73,8 @@ const Login: React.FC = () => {
                                                 id="email"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)} />
-                                            {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>}
                                         </InputGroup>
+                                        {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>}
                                     </Form.Group>
                                     <Form.Group >
                                         <Form.Label htmlFor="password">Password</Form.Label>
@@ -84,12 +87,16 @@ const Login: React.FC = () => {
                                                 id="password"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)} />
-                                                {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password}</small>}
                                         </InputGroup>
+                                        {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password}</small>}
                                     </Form.Group>
                                 </Form>
                             </Card.Body>
-                            <Card.Footer className='d-grid gap-2'>
+                            <Card.Body>
+                                <p>Esqueci <Link to="/">Username/Password?</Link></p>
+                                <p>Não tem uma conta? <Link to="/signup">Registre-se</Link></p>
+                            </Card.Body>
+                            <Card.Footer className='d-grid'>
                                 <Button variant="dark" onClick={handleLogin} disabled={isLoading}>
                                     {(isLoading)
                                         ? <>
@@ -99,6 +106,7 @@ const Login: React.FC = () => {
                                                 size="sm"
                                                 role="status"
                                                 aria-hidden="false"
+                                                className="mr-2"
                                             />
                                             Aguarde...
                                         </>

@@ -21,15 +21,16 @@ const Home: React.FC = () => {
             setProducts(products);
 
         }
-
         getProducts();
+        setParams("");
+ 
 
     }, []);
 
     return (
         <>
-            <Header />
-            <Menu />
+            <Header home={true} />
+            <Menu home={true} />
             <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid>
                 {products?.map((product: ApiProduct) => {
                     return (

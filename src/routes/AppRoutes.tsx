@@ -4,6 +4,7 @@ import Home from '../pages/Home';
 import Products from '../pages/Admin/Products';
 import Users from '../pages/Admin/Users';
 import Login from '../pages/Login';
+import SignUp from '../pages/SingUp';
 
 
 const AppRoutes: React.FC = () => {
@@ -15,6 +16,7 @@ const AppRoutes: React.FC = () => {
                 <Route path='/products' Component={Products}/>
                 <Route path='/users' Component={Users} />
                 <Route path="/login" Component={Login} />
+                <Route path="/signup" Component={SignUp} />
             </Routes>
         </BrowserRouter>
 

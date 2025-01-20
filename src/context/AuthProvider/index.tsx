@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
-import { AuthContextData, AuthContextChildrens, LoginPayload } from './types';
-import { getSession, setSession } from './session';
 import { ApiUser } from '../ApiProvider/types';
 import { useApi } from '../ApiProvider/useApi';
+import { getSession, setSession } from './session';
+import { AuthContextChildrens, AuthContextData, LoginPayload } from './types';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -12,24 +12,26 @@ export const AuthProvider = ({ children }: AuthContextChildrens) => {
 
     const [user, setUser] = useState<ApiUser | null>(null);
 
-    async function SignIn(data: LoginPayload) {
+    async function SignIn(payload: LoginPayload) {
 
         try {
 
-            const responseToken = await api.RequestLogin(data);
-            const apiUser: ApiUser = {};
-            apiUser.token = responseToken.token;
+            const responseToken = await api.RequestLogin(payload);
+            const apiUser: ApiUser = {token: responseToken.token};
             setSession(apiUser);
 
             if (responseToken.token) {
                 const responseUser = await api.RequestUserAuthenticated();
+                console.log(responseUser);
                 apiUser.nome = responseUser.nome;
                 apiUser.email = responseUser.email;
                 apiUser.rules = responseUser.rules;
                 setUser(apiUser);
+                setSession(apiUser);
             }
 
         } catch (excpetion: any) {
+            console.log(excpetion);
             throw excpetion;
         }
     }

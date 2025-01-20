@@ -1,12 +1,10 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import { Button, Col, Container, Form, Image, InputGroup, Row } from 'react-bootstrap';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import shopLogo from '../../assets/logo-header.svg';
+import SearchProductHome from '../SearchProductHome';
 import './style.css';
 
-const Header: React.FC = () => {
+const Header = ({ home }: { home?: boolean }) => {
 
     return (
         <header>
@@ -20,19 +18,10 @@ const Header: React.FC = () => {
                     <Col md={4} className='d-flex justify-content-center align-items-center'>
                         <h1 className='title'>Shop App</h1>
                     </Col>
-                    <Col md={4} className='d-flex align-items-end justify-content-end'>
-                        <Form>
-                            <InputGroup>
-                                <Form.Control
-                                    type="search"
-                                    placeholder="Pesquisa de produtos"
-                                    aria-label="Search"
-                                />
-                                <Button variant="light">
-                                    <FontAwesomeIcon icon={faSearch} />
-                                </Button>
-                            </InputGroup>
-                        </Form>
+                    <Col md={4} className='d-flex justify-content-end align-items-center'>
+                        {(home) &&
+                            <SearchProductHome/>
+                        }
                     </Col>
                 </Row>
             </Container>

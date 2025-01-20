@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ApiUser } from "../ApiProvider/types";
+import { ApiSignUp, ApiUser } from "../ApiProvider/types";
 
 export interface AuthContextData {
     SignIn(data: LoginPayload): Promise<void>;
@@ -22,3 +22,4 @@ export interface AuthError {
     message: string;
     fields: LoginPayload;
 }
+
