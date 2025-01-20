@@ -1,10 +1,13 @@
 import { Col, Container, Image, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import shopLogo from '../../assets/logo-header.svg';
 import SearchProductHome from '../SearchProductHome';
 import './style.css';
 
-const Header = ({ home }: { home?: boolean }) => {
+const Header = () => {
+
+    const location = useLocation();  
+    const isHome = location.pathname === "/";
 
     return (
         <header>
@@ -19,8 +22,8 @@ const Header = ({ home }: { home?: boolean }) => {
                         <h1 className='title'>Shop App</h1>
                     </Col>
                     <Col md={4} className='d-flex justify-content-end align-items-center'>
-                        {(home) &&
-                            <SearchProductHome/>
+                        {(isHome) &&
+                            <SearchProductHome />
                         }
                     </Col>
                 </Row>

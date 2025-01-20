@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../components/Header';
-import Menu from '../../components/Menu';
-import { useApi } from '../../context/ApiProvider/useApi';
-import { ApiProduct } from '../../context/ApiProvider/types';
-import { formatMoney } from '../../utils';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { ApiProduct } from '../../context/ApiProvider/types';
+import { useApi } from '../../context/ApiProvider/useApi';
+import { formatMoney } from '../../utils';
 import './style.css';
+import RootLayout from '../layout';
 
 const Home: React.FC = () => {
 
@@ -23,14 +22,13 @@ const Home: React.FC = () => {
         }
         getProducts();
         setParams("");
- 
+
 
     }, []);
 
     return (
-        <>
-            <Header home={true} />
-            <Menu home={true} />
+
+        <RootLayout>
             <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid>
                 {products?.map((product: ApiProduct) => {
                     return (
@@ -52,8 +50,8 @@ const Home: React.FC = () => {
                 }
                 )}
             </Container>
+        </RootLayout>
 
-        </>
     )
 }
 

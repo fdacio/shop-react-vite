@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import { ApiUser } from '../ApiProvider/types';
 import { useApi } from '../ApiProvider/useApi';
 import { getSession, setSession } from './session';
-import { AuthContextChildrens, AuthContextData, LoginPayload } from './types';
+import { AuthContextChildrens, AuthContextData, ApiLogin } from './types';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }: AuthContextChildrens) => {
 
     const [user, setUser] = useState<ApiUser | null>(null);
 
-    async function SignIn(payload: LoginPayload) {
+    async function SignIn(payload: ApiLogin) {
 
         try {
 

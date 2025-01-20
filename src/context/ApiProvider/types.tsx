@@ -1,10 +1,12 @@
 import { ReactNode } from "react";
-import { LoginPayload } from "../AuthProvider/types";
+import { ApiLogin } from "../AuthProvider/types";
 
 export interface ApiContextData {
-    RequestLogin(payload: LoginPayload) : Promise<ApiToken>;
+    RequestLogin(payload: ApiLogin) : Promise<ApiToken>;
     RequestUserAuthenticated() : Promise<ApiUser>;
     RequestProductAllHome(params: string | "") : Promise<ApiProduct[]>;
+    RequestSignUp(payload: ApiSignUp) : Promise<ApiSignUp>
+    
 }
 
 export interface ApiContextChildrens {
@@ -14,9 +16,10 @@ export interface ApiContextChildrens {
 export enum EndPoint {
     AUTH_LOGIN = "/auth/login",
     AUTH_USER_AUTHENTICATE = "/auth/user/authenticated",
+    CUSTOMER_SIGUP = "/customer/user",
+    USER = "/auth/user",
     PRODUCT_HOME = "/product/all/home",
     PRODUCT = "/product",
-    USER = "/auth/user"
 } 
 
 export interface ApiToken {
@@ -60,9 +63,20 @@ export interface ApiCustomer {
     interesses?: ApiCategory[];
 }
 
+
 export interface ApiPassword {
     password: string;
     rePassword: string;
+}
+
+export interface ApiCustomerSignUp {
+    'customer_nome': string;
+    'customer_cpf': string;
+    'customer_endereco': string;
+    'customer_email': string;
+    'customer_telefone': string;
+    'password_password': string;
+    'password_rePassword': string;
 }
 
 export interface ApiSignUp {
@@ -72,7 +86,11 @@ export interface ApiSignUp {
 
 export interface SignUpError {
     message: string;
-    fields: ApiSignUp;
+    fields: {
+        customer: ApiCustomer,
+        password: ApiPassword
+    };
+
 }
 
     /*

@@ -1,8 +1,11 @@
 import { Nav, Navbar } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthProvider/useAuth';
+import { useLocation } from 'react-router-dom';
 
-const Menu = ({ home }: { home?: boolean }) => {
+const Menu =  () => {
 
+    const location = useLocation();  
+    const isHome = location.pathname === "/";
     const auth = useAuth();
 
     function handleLogout() {
@@ -16,7 +19,7 @@ const Menu = ({ home }: { home?: boolean }) => {
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Nav>
                     <Nav.Link href="/">Home</Nav.Link>
-                    {(home) &&
+                    {(isHome) &&
                         <Nav.Link href="#">Filter</Nav.Link>
                     }
                 </Nav>
@@ -32,7 +35,7 @@ const Menu = ({ home }: { home?: boolean }) => {
                         </Nav>
                     </>
                 }
-                {(home) &&
+                {(isHome) &&
                     <Navbar.Collapse className='justify-content-end'>
                         <Nav>
                             {(!auth.signed)

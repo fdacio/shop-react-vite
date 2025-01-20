@@ -1,43 +1,49 @@
-import { useState } from "react";
-import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Alert, Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import Menu from "../../components/Menu";
-import { ApiCategory, ApiCustomer, ApiPassword, ApiSignUp, SignUpError } from "../../context/ApiProvider/types";
+import { ApiCustomer, ApiPassword, ApiSignUp, SignUpError } from "../../context/ApiProvider/types";
+import { useApi } from "../../context/ApiProvider/useApi";
+import RootLayout from "../layout";
 
 const SignUp = () => {
 
-    //nome, cpf, endereco, email, telefone, interesses
+    const api = useApi();
+    const navigate = useNavigate();
+
     const [nome, setNome] = useState<string | "">("");
     const [cpf, setCpf] = useState<string | "">("");
     const [endereco, setEndereco] = useState<string | "">("");
     const [email, setEmail] = useState<string | "">("");
     const [telefone, setTelefone] = useState<string | "">("");
-    const [interesses, setInteresses] = useState<ApiCategory[] | null>(null);
+    //const [interesses, setInteresses] = useState<ApiCategory[] | null>(null);
     const [password, setPassword] = useState<string | "">("");
     const [rePassword, setRePassword] = useState<string | "">("");
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<SignUpError | null>(null);
 
-    const navigate = useNavigate();
+    useEffect(() =>{
+        setEmail("");
+    },[])
 
     async function handleSignUp() {
 
         setIsLoading(true);
 
-        try {
+        const payload: ApiSignUp = parsePayload();
 
+        try {
+            await api.RequestSignUp(payload);
             navigate("/login");
         } catch (error: any) {
-            setError(error.response.data);
+            const erroSignup : SignUpError = error.response.data;
+            console.log(JSON.stringify(erroSignup, null, '\t'));
+            setError(erroSignup);
         }
 
         setIsLoading(false);
 
     }
-
-
 
     function parsePayload(): ApiSignUp {
 
@@ -46,7 +52,8 @@ const SignUp = () => {
             cpf: cpf,
             endereco: endereco,
             email: email,
-            telefone: telefone
+            telefone: telefone,
+            interesses: []
         }
 
         const _password: ApiPassword = {
@@ -66,11 +73,8 @@ const SignUp = () => {
 
     return (
 
-        <>
-            <Header />
-            <Menu />
+            <RootLayout>
 
-            <Container className='mt-5'>
                 <Row>
                     <Col md={{ span: 6, offset: 3 }}>
                         {
@@ -82,11 +86,12 @@ const SignUp = () => {
                         <Card className="w-100">
                             <Card.Header className="text-center fw-bold">Registre-se</Card.Header>
                             <Card.Body>
-                                <Form>
+                                <Form  autoComplete="off">
                                     <Form.Group className="mb-3">
                                         <Form.Label htmlFor="nome">Nome</Form.Label>
                                         <Form.Control
                                             type="text"
+                                            size="sm"
                                             id="nome"
                                             value={nome}
                                             onChange={(e) => setNome(e.target.value)} />
@@ -96,6 +101,7 @@ const SignUp = () => {
                                         <Form.Label htmlFor="cpf">CPF</Form.Label>
                                         <Form.Control
                                             type="text"
+                                            size="sm"
                                             id="cpf"
                                             value={cpf}
                                             onChange={(e) => setCpf(e.target.value)} />
@@ -105,6 +111,7 @@ const SignUp = () => {
                                         <Form.Label htmlFor="endereco">Endereço</Form.Label>
                                         <Form.Control
                                             type="text"
+                                            size="sm"
                                             id="endereco"
                                             value={endereco}
                                             onChange={(e) => setEndereco(e.target.value)} />
@@ -115,16 +122,19 @@ const SignUp = () => {
                                         <Form.Label htmlFor="email">Email</Form.Label>
                                         <Form.Control
                                             type="text"
+                                            size="sm"
                                             id="email"
+                                            autoComplete="off"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)} />
-                                        {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.customer.email}</small>}
+                                        {(error?.fields != null) && <small className='text-sm text-danger'>{error.fieldscustomer.email}</small>}
                                     </Form.Group>
 
                                     <Form.Group className="mb-3">
                                         <Form.Label htmlFor="telefone">Telefone</Form.Label>
                                         <Form.Control
                                             type="text"
+                                            size="sm"
                                             id="telefone"
                                             value={telefone}
                                             onChange={(e) => setTelefone(e.target.value)} />
@@ -135,7 +145,9 @@ const SignUp = () => {
                                         <Form.Label htmlFor="password">Password</Form.Label>
                                         <Form.Control
                                             type="password"
+                                            size="sm"
                                             id="password"
+                                            autoComplete="off"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)} />
                                         {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password.password}</small>}
@@ -145,7 +157,9 @@ const SignUp = () => {
                                         <Form.Label htmlFor="re-password">Re-Password</Form.Label>
                                         <Form.Control
                                             type="password"
+                                            size="sm"
                                             id="re-password"
+                                            autoComplete="off"
                                             value={rePassword}
                                             onChange={(e) => setRePassword(e.target.value)} />
                                         {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password.rePassword}</small>}
@@ -175,8 +189,7 @@ const SignUp = () => {
                         </Card>
                     </Col>
                 </Row>
-            </Container>
-        </>
+            </RootLayout>
     )
 
 }

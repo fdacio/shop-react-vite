@@ -1,13 +1,12 @@
 import { faAt, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { Alert, Button, Card, Col, Container, InputGroup, Row, Spinner } from 'react-bootstrap';
+import { Alert, Button, Card, Col, InputGroup, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header';
-import Menu from '../../components/Menu';
-import { AuthError, LoginPayload } from '../../context/AuthProvider/types';
+import { ApiLogin, AuthError } from '../../context/AuthProvider/types';
 import { useAuth } from '../../context/AuthProvider/useAuth';
+import RootLayout from '../layout';
 
 const Login = () => {
 
@@ -24,7 +23,7 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            await auth.SignIn(parseLoginPayload({ email, password }));
+            await auth.SignIn(parseLoginPayload());
             navigate("/");
         } catch (error: any) {
             setError(error.response.data);
@@ -34,8 +33,8 @@ const Login = () => {
 
     }
 
-    function parseLoginPayload({ email, password }: { email: string, password: string }): LoginPayload {
-        const payload: LoginPayload = {
+    function parseLoginPayload(): ApiLogin {
+        const payload: ApiLogin = {
             username: email,
             password: password
         }
@@ -46,10 +45,7 @@ const Login = () => {
     return (
 
         <>
-            <Header />
-            <Menu />
-
-            <Container className='mt-5'>
+            <RootLayout>
                 <Row>
                     <Col md={{ span: 4, offset: 4 }}>
                         {
@@ -119,7 +115,8 @@ const Login = () => {
                         </Card>
                     </Col>
                 </Row>
-            </Container>
+            </RootLayout>
+
         </>
     )
 }
