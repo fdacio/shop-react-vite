@@ -1,11 +1,11 @@
-import { Container, Card, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { ApiProduct } from "../../context/ApiProvider/types";
+import { useApi } from "../../context/ApiProvider/useApi";
 import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
-import { useApi } from "../../context/ApiProvider/useApi";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
-const ProductsGrid = forwardRef(({}, ref) => {
+const ProductsGrid = () => {
 
     const api = useApi();
     const [products, setProducts] = useState<ApiProduct[] | []>([]);
@@ -13,7 +13,7 @@ const ProductsGrid = forwardRef(({}, ref) => {
     useEffect(() => {
 
         const getProducts = async () => {
-            const products = await api.RequestProductAllHome();
+            const products = await api.RequestProductAllHome("");
             setProducts(products);
         }
 
@@ -21,16 +21,10 @@ const ProductsGrid = forwardRef(({}, ref) => {
 
     }, []);
 
-    const searchProducts = async (param?: string | undefined) => {
-        const products = await api.RequestProductAllHome(param);
-        setProducts(products);
-    }
-
-    const publicRef = {
-        searchProductsGrid: searchProducts
-    }
-
-    useImperativeHandle(ref, () => publicRef);
+    // const searchProducts = async (param?: string) => {
+    //     const products = await api.RequestProductAllHome(param);
+    //     setProducts(products);
+    // }
 
     return (
 
@@ -58,7 +52,7 @@ const ProductsGrid = forwardRef(({}, ref) => {
     );
 
 
-})
+}
 
 export default ProductsGrid;
 

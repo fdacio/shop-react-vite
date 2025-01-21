@@ -4,11 +4,10 @@ import './style.css';
 
 const Home = () => {
 
-
     return (
 
         <RootLayout>
-            <ProductsGrid />
+            <ProductsGrid  />
         </RootLayout>
 
     )

@@ -4,7 +4,7 @@ import { ApiLogin } from "../AuthProvider/types";
 export interface ApiContextData {
     RequestLogin(payload: ApiLogin) : Promise<ApiToken>;
     RequestUserAuthenticated() : Promise<ApiUser>;
-    RequestProductAllHome(params?: string | undefined) : Promise<ApiProduct[]>;
+    RequestProductAllHome(params?: string) : Promise<ApiProduct[]>;
     RequestSignUp(payload: ApiSignUp) : Promise<ApiSignUp>
     RequestProductPhoto(id: number) : any;
     

@@ -26,7 +26,7 @@ export const ApiProvider = ({ children }: ApiContextChildrens) => {
         return signup
     }
 
-    async function RequestProductAllHome(params: string | undefined) {
+    async function RequestProductAllHome(params?: string) {
         const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + params);
         const products: ApiProduct[] = response.data.content;
         return products;

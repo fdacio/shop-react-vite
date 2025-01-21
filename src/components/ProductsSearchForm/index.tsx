@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 
-const SearchProductHome = ({ callBack } : { callBack? : (param: string) => {}}) => {
+const SearchProductHome = () => {
 
     const [param, setParam] = useState<string>("");
 
     const searchProducts = () => {
-        if (callBack) callBack(param);
+        alert("clicou search");
     }
 
     return (
