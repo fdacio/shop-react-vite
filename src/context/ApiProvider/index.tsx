@@ -18,11 +18,11 @@ export const ApiProvider = ({ children }: ApiContextChildrens) => {
         const apiUser: ApiUser = response.data;
         return apiUser;
     }
-
+    
     async function RequestProductAllHome(params: string) {
         const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + params);
         const products: ApiProduct[] = response.data.content;
-        return products
+        return products;
     }
 
     async function RequestSignUp(payload: ApiSignUp) {
@@ -31,11 +31,16 @@ export const ApiProvider = ({ children }: ApiContextChildrens) => {
         return signup
     }
 
+    async function RequestProductPhoto(id: number) {
+        return (await axiosInstance.get(EndPoint.PRODUCT_PHOTO +`/${id}`, { responseType: 'blob' })).data;
+    }
+
     const contextData = {
         RequestLogin,
         RequestUserAuthenticated,
         RequestProductAllHome,
-        RequestSignUp
+        RequestSignUp,
+        RequestProductPhoto
     }
 
     return (

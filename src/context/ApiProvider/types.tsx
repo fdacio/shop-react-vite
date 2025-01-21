@@ -6,6 +6,7 @@ export interface ApiContextData {
     RequestUserAuthenticated() : Promise<ApiUser>;
     RequestProductAllHome(params: string | "") : Promise<ApiProduct[]>;
     RequestSignUp(payload: ApiSignUp) : Promise<ApiSignUp>
+    RequestProductPhoto(id: number) : any;
     
 }
 
@@ -20,6 +21,8 @@ export enum EndPoint {
     USER = "/auth/user",
     PRODUCT_HOME = "/product/all/home",
     PRODUCT = "/product",
+    PRODUCT_PHOTO = "/product/photo",
+
 } 
 
 export interface ApiToken {
@@ -70,13 +73,13 @@ export interface ApiPassword {
 }
 
 export interface ApiCustomerSignUp {
-    'customer_nome': string;
-    'customer_cpf': string;
-    'customer_endereco': string;
-    'customer_email': string;
-    'customer_telefone': string;
-    'password_password': string;
-    'password_rePassword': string;
+    'customer.nome': string;
+    'customer.cpf': string;
+    'customer.endereco': string;
+    'customer.email': string;
+    'customer.telefone': string;
+    'password.password': string;
+    'password.rePassword': string;
 }
 
 export interface ApiSignUp {
@@ -90,25 +93,6 @@ export interface SignUpError {
         customer: ApiCustomer,
         password: ApiPassword
     };
-
 }
 
-    /*
-    {
-    "customer": {
-        "nome": "Benjamin Alvarenga Moreira",
-        "cpf": "52925773400",
-        "endereco": "Rua Maria de Lourdes de Andrade Barbosa, 258 - Joaão Pessoa - PB",
-        "email": "benjamin.moreira@geradornv.com.br",
-        "telefone": "(83) 99805-5536",
-        "interesses": [
-            {"id" : 1}, {"id" : 3}
 
-        ]
-    },
-    "password": {
-        "password": "ben123",
-        "rePassword": "ben123"
-    }
-}
-    /*/

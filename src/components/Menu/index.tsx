@@ -18,20 +18,20 @@ const Menu =  () => {
 
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Nav>
-                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link href="/">Início</Nav.Link>
                     {(isHome) &&
-                        <Nav.Link href="#">Filter</Nav.Link>
+                        <Nav.Link href="#">Filtro</Nav.Link>
                     }
                 </Nav>
                 {(auth.signed) &&
                     <>
                         <Nav>
-                            <Nav.Link href="/">My Orders</Nav.Link>
-                            <Nav.Link href="/">Profile</Nav.Link>
+                            <Nav.Link href="/">Meu Pedidos</Nav.Link>
+                            <Nav.Link href="/">Perfil</Nav.Link>
 
-                            <Nav.Link href="/products">Products</Nav.Link>
-                            <Nav.Link href="/products">Orders</Nav.Link>
-                            <Nav.Link href="/users">Users</Nav.Link>
+                            <Nav.Link href="/products">Producto</Nav.Link>
+                            <Nav.Link href="/products">Pedidos</Nav.Link>
+                            <Nav.Link href="/users">Usuários</Nav.Link>
                         </Nav>
                     </>
                 }

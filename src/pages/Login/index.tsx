@@ -1,6 +1,6 @@
 import { faAt, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, InputGroup, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -42,12 +42,17 @@ const Login = () => {
 
     }
 
+    useEffect(() => {
+        // setEmail("");
+        // setPassword("");
+    }, [])
+
     return (
 
         <>
             <RootLayout>
                 <Row>
-                    <Col md={{ span: 4, offset: 4 }}>
+                    <Col md={{ span: 4, offset: 4 }} xs="auto">
                         {
                             (error != null && error.fields == undefined) &&
                             <Alert variant="danger">
@@ -67,7 +72,10 @@ const Login = () => {
                                             <Form.Control
                                                 type="email"
                                                 id="email"
+                                                autoComplete='new-password'
+                                                size="sm"
                                                 value={email}
+                                                autoFocus={true}
                                                 onChange={(e) => setEmail(e.target.value)} />
                                         </InputGroup>
                                         {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>}
@@ -81,6 +89,8 @@ const Login = () => {
                                             <Form.Control
                                                 type="password"
                                                 id="password"
+                                                size="sm"
+                                                autoComplete='new-password'
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)} />
                                         </InputGroup>
@@ -93,7 +103,7 @@ const Login = () => {
                                 <p>Não tem uma conta? <Link to="/signup">Registre-se</Link></p>
                             </Card.Body>
                             <Card.Footer className='d-grid'>
-                                <Button variant="dark" onClick={handleLogin} disabled={isLoading}>
+                                <Button variant="dark" onClick={handleLogin} disabled={isLoading} size="sm">
                                     {(isLoading)
                                         ? <>
                                             <Spinner
