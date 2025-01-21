@@ -11,7 +11,8 @@ const Header = () => {
 
     return (
         <header>
-            <Container fluid>
+
+            <Container fluid >
                 <Row>
                     <Col md={4} className='d-flex align-items-center justify-content-begin'>
                         <Link to="/">

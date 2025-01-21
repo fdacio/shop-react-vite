@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { ApiProduct } from "../../context/ApiProvider/types";
 import { useApi } from "../../context/ApiProvider/useApi";
 import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
 
-const ProductsGrid = () => {
+const ProductsGrid = forwardRef((_, ref) => {
 
     const api = useApi();
     const [products, setProducts] = useState<ApiProduct[] | []>([]);
@@ -21,14 +21,19 @@ const ProductsGrid = () => {
 
     }, []);
 
-    // const searchProducts = async (param?: string) => {
-    //     const products = await api.RequestProductAllHome(param);
-    //     setProducts(products);
-    // }
+    const searchProducts = async (param?: string) => {
+        const products = await api.RequestProductAllHome(param);
+        setProducts(products);
+    }
+
+    useImperativeHandle(ref, () => ({
+        handleSearchProducts: searchProducts
+     }));
+
+
 
     return (
-
-        <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid>
+        <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid >
             {products?.map((product: ApiProduct) => {
                 return (
                     <Card className='product-card' key={product.id}>
@@ -52,7 +57,7 @@ const ProductsGrid = () => {
     );
 
 
-}
+})
 
 export default ProductsGrid;
 
