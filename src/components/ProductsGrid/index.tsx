@@ -4,6 +4,7 @@ import { ApiProduct } from "../../context/ApiProvider/types";
 import { useApi } from "../../context/ApiProvider/useApi";
 import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
+import './style.css';
 
 const ProductsGrid = forwardRef((_, ref) => {
 

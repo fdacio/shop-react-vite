@@ -1,13 +1,13 @@
-import React from 'react';
+import RootLayout from '../../layout';
 
-const Products: React.FC = () => {
+const Products = () => {
     return (
-        <>
+        <RootLayout>
             <div>
                 <h1>Products</h1>
             </div>
 
-        </>
+        </RootLayout>
     )
 }
 

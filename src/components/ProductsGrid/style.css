@@ -4,8 +4,7 @@
 }
 
 .product-card .descricao {
-    overflow-y: scroll;
-    max-height: 100px;
+    font-size: 14px;
 }
 
 .product-card .nome {

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import ProductsGrid from '../../components/ProductsGrid';
 import { ProductsGridSearch } from '../../components/ProductsGrid/types';
 import RootLayout from '../layout';
-import './style.css';
 
 const Home = () => {
     
