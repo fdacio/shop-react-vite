@@ -4,7 +4,7 @@ import shopLogo from '../../assets/logo-header.svg';
 import SearchProductHome from '../SearchProductHome';
 import './style.css';
 
-const Header = ({ callBack } : { callBack? : () => {}}) => {
+const Header = () => {
 
     const location = useLocation();  
     const isHome = location.pathname === "/";
@@ -22,8 +22,8 @@ const Header = ({ callBack } : { callBack? : () => {}}) => {
                         <h1 className='title'>Shop App</h1>
                     </Col>
                     <Col md={4} className='d-flex justify-content-end align-items-center'>
-                        {(isHome && callBack) &&
-                            <SearchProductHome callBack={callBack}/>
+                        {(isHome) &&
+                            <SearchProductHome />
                         }
                     </Col>
                 </Row>

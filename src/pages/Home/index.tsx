@@ -11,11 +11,13 @@ const Home = () => {
 
     const api = useApi();
     const [products, setProducts] = useState<ApiProduct[] | []>([]);
+    const [params, setParams] = useState<string>("");
+
 
     useEffect(() => {
 
         const getProducts = async () => {
-            const params = "";
+            setParams("?sort=nome");
             const products = await api.RequestProductAllHome(params);
             setProducts(products);
          }
@@ -24,7 +26,12 @@ const Home = () => {
 
     }, []);
 
-
+    /*
+    const searchProducts = async (param: string) => {
+        const products = await api.RequestProductAllHome(param);
+        setProducts(products);
+    }
+    */
 
     return (
 
