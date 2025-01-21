@@ -1,6 +1,6 @@
 import { faAt, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert, Button, Card, Col, InputGroup, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -42,92 +42,86 @@ const Login = () => {
 
     }
 
-    useEffect(() => {
-        // setEmail("");
-        // setPassword("");
-    }, [])
-
     return (
 
-        <>
-            <RootLayout>
-                <Row>
-                    <Col md={{ span: 4, offset: 4 }} xs="auto">
-                        {
-                            (error != null && error.fields == undefined) &&
-                            <Alert variant="danger">
-                                {error.message}
-                            </Alert>
-                        }
-                        <Card className="w-100">
-                            <Card.Header className="text-center fw-bold">Login</Card.Header>
-                            <Card.Body>
-                                <Form>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label htmlFor="email">Username</Form.Label>
-                                        <InputGroup>
-                                            <InputGroup.Text>
-                                                <FontAwesomeIcon icon={faAt} />
-                                            </InputGroup.Text>
-                                            <Form.Control
-                                                type="email"
-                                                id="email"
-                                                autoComplete='new-password'
-                                                size="sm"
-                                                value={email}
-                                                autoFocus={true}
-                                                onChange={(e) => setEmail(e.target.value)} />
-                                        </InputGroup>
-                                        {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>}
-                                    </Form.Group>
-                                    <Form.Group >
-                                        <Form.Label htmlFor="password">Password</Form.Label>
-                                        <InputGroup>
-                                            <InputGroup.Text>
-                                                <FontAwesomeIcon icon={faKey} />
-                                            </InputGroup.Text>
-                                            <Form.Control
-                                                type="password"
-                                                id="password"
-                                                size="sm"
-                                                autoComplete='new-password'
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)} />
-                                        </InputGroup>
-                                        {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password}</small>}
-                                    </Form.Group>
-                                </Form>
-                            </Card.Body>
-                            <Card.Body>
-                                <p>Esqueci <Link to="/">Username/Password?</Link></p>
-                                <p>Não tem uma conta? <Link to="/signup">Registre-se</Link></p>
-                            </Card.Body>
-                            <Card.Footer className='d-grid'>
-                                <Button variant="dark" onClick={handleLogin} disabled={isLoading} size="sm">
-                                    {(isLoading)
-                                        ? <>
-                                            <Spinner
-                                                as="span"
-                                                animation="grow"
-                                                size="sm"
-                                                role="status"
-                                                aria-hidden="false"
-                                                className="mr-2"
-                                            />
-                                            Aguarde...
-                                        </>
-                                        : <>
-                                            Entrar
-                                        </>
-                                    }
-                                </Button>
-                            </Card.Footer>
-                        </Card>
-                    </Col>
-                </Row>
-            </RootLayout>
+        <RootLayout>
+            <Row>
+                <Col md={{ span: 4, offset: 4 }} xs="auto">
 
-        </>
+                    <Card className="w-100">
+                        <Card.Header className="text-center fw-bold">Login</Card.Header>
+                        <Card.Body>
+                            {
+                                (error != null && error.fields == undefined) &&
+                                <>
+                                    <Alert variant="danger" className='p-1'>
+                                        <small>{error.message}</small>
+                                    </Alert>
+                                </>
+                            }
+                            <Form>
+                                <Form.Group className="mb-2">
+                                    <Form.Label htmlFor="email">Username</Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Text>
+                                            <FontAwesomeIcon icon={faAt} />
+                                        </InputGroup.Text>
+                                        <Form.Control
+                                            type="email"
+                                            id="email"
+                                            size="sm"
+                                            value={email}
+                                            autoFocus={true}
+                                            onChange={(e) => setEmail(e.target.value)} />
+                                    </InputGroup>
+                                    {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.username}</small>}
+                                </Form.Group>
+                                <Form.Group >
+                                    <Form.Label htmlFor="password">Password</Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Text>
+                                            <FontAwesomeIcon icon={faKey} />
+                                        </InputGroup.Text>
+                                        <Form.Control
+                                            type="password"
+                                            id="password"
+                                            size="sm"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)} />
+                                    </InputGroup>
+                                    {(error?.fields != null) && <small className='text-sm text-danger'>{error.fields.password}</small>}
+                                </Form.Group>
+                            </Form>
+                        </Card.Body>
+                        <Card.Body>
+                            <p>Esqueci <Link to="/">Username/Password?</Link></p>
+                            <p>Não tem uma conta? <Link to="/signup">Registre-se</Link></p>
+                        </Card.Body>
+                        <Card.Footer className='d-grid'>
+                            <Button variant="dark" onClick={handleLogin} disabled={isLoading} size="sm">
+                                {(isLoading)
+                                    ? <>
+                                        <Spinner
+                                            as="span"
+                                            animation="grow"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="false"
+                                            className="mr-2"
+                                        />
+                                        Aguarde...
+                                    </>
+                                    : <>
+                                        Entrar
+                                    </>
+                                }
+                            </Button>
+                        </Card.Footer>
+                    </Card>
+                </Col>
+            </Row>
+        </RootLayout>
+
     )
 }
 

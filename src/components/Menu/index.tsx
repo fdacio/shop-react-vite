@@ -1,11 +1,12 @@
 import { Nav, Navbar } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthProvider/useAuth';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const Menu =  () => {
+const Menu = () => {
 
-    const location = useLocation();  
-    const isHome = location.pathname === "/";
+    const location = useLocation();
+    const isRouteHome = location.pathname === "/";
+    const isRouteLogin = location.pathname === "/login";
     const auth = useAuth();
 
     function handleLogout() {
@@ -18,38 +19,39 @@ const Menu =  () => {
 
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Nav>
-                    <Nav.Link href="/">Início</Nav.Link>
-                    {(isHome) &&
-                        <Nav.Link href="#">Filtro</Nav.Link>
+                    <Link to="/" className='nav-link'>Início</Link>
+                    {(isRouteHome) &&
+                        <Link to="/" className='nav-link'>Filtro</Link>
                     }
                 </Nav>
                 {(auth.signed) &&
                     <>
                         <Nav>
-                            <Nav.Link href="/">Meu Pedidos</Nav.Link>
-                            <Nav.Link href="/">Perfil</Nav.Link>
-
-                            <Nav.Link href="/products">Producto</Nav.Link>
-                            <Nav.Link href="/products">Pedidos</Nav.Link>
-                            <Nav.Link href="/users">Usuários</Nav.Link>
+                            <Link to="/" className='nav-link'>Meus Pedidos</Link>
+                            <Link to="/" className='nav-link border-end'>Perfil</Link>
+                            <Link to="/products" className='nav-link'>Produtos</Link>
+                            <Link to="/orders" className='nav-link'>Pedidos</Link>
+                            <Link to="/custormes" className='nav-link'>Clientes</Link>
+                            <Link to="/users" className='nav-link'>Usuários</Link>
                         </Nav>
                     </>
                 }
-                {(isHome) &&
-                    <Navbar.Collapse className='justify-content-end'>
-                        <Nav>
-                            {(!auth.signed)
-                                ?
-                                <Nav.Link href="/login">Login</Nav.Link>
-                                :
-                                <>
-                                    <Nav.Link href="#" className='fw-bold'>{auth.user?.nome}</Nav.Link>
-                                    <Nav.Link href="#" onClick={handleLogout}>Sair</Nav.Link>
-                                </>
-                            }
-                        </Nav>
-                    </Navbar.Collapse>
-                }
+
+                <Navbar.Collapse className='justify-content-end'>
+                    <Nav>
+
+                        {(!(auth.signed || isRouteLogin)) &&
+                            <Link to="/login" className='nav-link'>Login</Link>
+                        }
+                        {(auth.signed) &&
+                            <>
+                                <Nav.Link href="#" className='fw-bold'>{auth.user?.nome}</Nav.Link>
+                                <Nav.Link href="#" onClick={handleLogout}>Sair</Nav.Link>
+                            </>
+                        }
+                    </Nav>
+                </Navbar.Collapse>
+
 
             </Navbar>
         </>

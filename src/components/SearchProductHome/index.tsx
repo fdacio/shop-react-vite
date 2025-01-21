@@ -1,28 +1,32 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 
-const SearchProductHome: React.FC = () => {
-    const isHome = true;
-    if (isHome) {
-        return (
-            <Form>
+const SearchProductHome = ({ callBack } : { callBack : (param: string) => {}}) => {
+
+    const [param, setParam] = useState<string>("");
+
+    const searchProducts = () => {
+        callBack(param);
+    }
+
+    return (
+        <Form>
             <InputGroup>
                 <Form.Control
-                    type="search"
+                    type="text"
                     placeholder="Pesquisa de produtos"
                     aria-label="Search"
+                    value={param}
+                    onChange={(e) => setParam(e.target.value)} 
                 />
-                <Button variant="light">
+                <Button variant="light" onClick={searchProducts}>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </InputGroup>
         </Form>
-        )
-    } else {   
-        return (<></>);
-    }
+    );
 }
 
 export default SearchProductHome;
