@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useApi } from "../../context/ApiProvider/useApi";
 import { ApiProduct } from "../../context/ApiProvider/types";
 import './style.css'
+
 const ProductPhoto = ({ product }: { product: ApiProduct }) => {
 
     const api = useApi();
@@ -24,7 +25,7 @@ const ProductPhoto = ({ product }: { product: ApiProduct }) => {
                         setAlt("Sem imagem");
                     }
                 } catch (err: any) {
-                    setAlt(err.response.data.message);
+                    throw err;
                 }
             }
             return _call(id);

@@ -1,7 +1,7 @@
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import shopLogo from '../../assets/logo-header.svg';
-import SearchProductHome from '../SearchProductHome';
+import SearchProductHome from '../ProductsSearchForm';
 import './style.css';
 
 const Header = () => {

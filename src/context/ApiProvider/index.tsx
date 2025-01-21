@@ -18,21 +18,22 @@ export const ApiProvider = ({ children }: ApiContextChildrens) => {
         const apiUser: ApiUser = response.data;
         return apiUser;
     }
-    
-    async function RequestProductAllHome(params: string) {
-        const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + params);
-        const products: ApiProduct[] = response.data.content;
-        return products;
-    }
 
+    //registrar um customer e um user
     async function RequestSignUp(payload: ApiSignUp) {
         const response = await axiosInstance.post(EndPoint.CUSTOMER_SIGUP, payload);
         const signup: ApiSignUp = response.data;
         return signup
     }
 
+    async function RequestProductAllHome(params: string | undefined) {
+        const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + params);
+        const products: ApiProduct[] = response.data.content;
+        return products;
+    }
+
     async function RequestProductPhoto(id: number) {
-        return (await axiosInstance.get(EndPoint.PRODUCT_PHOTO +`/${id}`, { responseType: 'blob' })).data;
+        return (await axiosInstance.get(EndPoint.PRODUCT_PHOTO.replace('__id__', id.toString()), { responseType: 'blob' })).data;
     }
 
     const contextData = {

@@ -4,7 +4,7 @@ import { ApiLogin } from "../AuthProvider/types";
 export interface ApiContextData {
     RequestLogin(payload: ApiLogin) : Promise<ApiToken>;
     RequestUserAuthenticated() : Promise<ApiUser>;
-    RequestProductAllHome(params: string | "") : Promise<ApiProduct[]>;
+    RequestProductAllHome(params?: string | undefined) : Promise<ApiProduct[]>;
     RequestSignUp(payload: ApiSignUp) : Promise<ApiSignUp>
     RequestProductPhoto(id: number) : any;
     
@@ -21,7 +21,7 @@ export enum EndPoint {
     USER = "/auth/user",
     PRODUCT_HOME = "/product/all/home",
     PRODUCT = "/product",
-    PRODUCT_PHOTO = "/product/photo",
+    PRODUCT_PHOTO = "/product/__id__/photo",
 
 } 
 
