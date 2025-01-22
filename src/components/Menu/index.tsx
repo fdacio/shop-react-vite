@@ -45,7 +45,7 @@ const Menu = () => {
                         }
                         {(auth.signed) &&
                             <>
-                                <Nav.Link href="#" className='fw-bold'>{auth.user?.nome}</Nav.Link>
+                                <Nav.Link href="#" className='fw-bold border-end'>{auth.user?.nome}</Nav.Link>
                                 <Nav.Link href="#" onClick={handleLogout}>Sair</Nav.Link>
                             </>
                         }

@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { ApiProduct } from "../../context/ApiProvider/types";
 import { useApi } from "../../context/ApiProvider/useApi";
@@ -6,7 +6,7 @@ import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
 import './style.css';
 
-const ProductsGrid = forwardRef((_, ref) => {
+const ProductsGrid = () => {
 
     const api = useApi();
     const [products, setProducts] = useState<ApiProduct[] | []>([]);
@@ -22,16 +22,10 @@ const ProductsGrid = forwardRef((_, ref) => {
 
     }, []);
 
-    const searchProducts = async (param?: string) => {
-        const products = await api.RequestProductAllHome(param);
-        setProducts(products);
-    }
-
-    useImperativeHandle(ref, () => ({
-        handleSearchProducts: searchProducts
-     }));
-
-
+    // const searchProducts = async (param?: string) => {
+    //     const products = await api.RequestProductAllHome(param);
+    //     setProducts(products);
+    // }
 
     return (
         <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid >
@@ -58,7 +52,7 @@ const ProductsGrid = forwardRef((_, ref) => {
     );
 
 
-})
+}
 
 export default ProductsGrid;
 

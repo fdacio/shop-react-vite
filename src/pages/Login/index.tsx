@@ -26,7 +26,7 @@ const Login = () => {
             await auth.SignIn(parseLoginPayload());
             navigate("/");
         } catch (error: any) {
-            setError(error.response.data);
+            setError(error.response?.data);
         }
 
         setIsLoading(false);
