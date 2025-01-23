@@ -3,10 +3,7 @@ import RootLayout from '../../layout';
 const Products = () => {
     return (
         <RootLayout>
-            <div>
-                <h1>Products</h1>
-            </div>
-
+            <h1>Products</h1>
         </RootLayout>
     )
 }

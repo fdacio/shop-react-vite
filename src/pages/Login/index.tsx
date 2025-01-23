@@ -39,16 +39,15 @@ const Login = () => {
             password: password
         }
         return payload;
-
     }
 
     return (
 
         <RootLayout>
-            <Row>
-                <Col md={{ span: 4, offset: 4 }} xs="auto">
+            <Row className='d-flex align-items-center'>
+                <Col md={{ span: 4, offset: 4 }} sm={{ span: 6, offset: 3 }}>
 
-                    <Card className="w-100">
+                    <Card className='m-2'>
                         <Card.Header className="text-center fw-bold">Login</Card.Header>
                         <Card.Body>
                             {

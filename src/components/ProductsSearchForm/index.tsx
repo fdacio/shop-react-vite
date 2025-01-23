@@ -7,8 +7,8 @@ const SearchProductHome = () => {
 
     const [param, setParam] = useState<string>("");
 
-    const searchProducts = () => {
-
+    const handleSearchProducts = () => {
+        console.log(param);
     }
 
     return (
@@ -19,9 +19,9 @@ const SearchProductHome = () => {
                     placeholder="Pesquisa de produtos"
                     aria-label="Search"
                     value={param}
-                    onChange={(e) => setParam(e.target.value)} 
+                    onChange={(e) => setParam(e.target.value)}
                 />
-                <Button variant="light" onClick={searchProducts}>
+                <Button variant="light" onClick={handleSearchProducts}>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </InputGroup>

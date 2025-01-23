@@ -25,16 +25,15 @@ const Menu = () => {
                     }
                 </Nav>
                 {(auth.signed) &&
-                    <>
+                    <div className='border-start'>
                         <Nav>
                             <Link to="/my-orders" className='nav-link'>Meus Pedidos</Link>
-                            <Link to="/my-profile" className='nav-link border-end'>Perfil</Link>
                             <Link to="/products" className='nav-link'>Produtos</Link>
                             <Link to="/orders" className='nav-link'>Pedidos</Link>
-                            <Link to="/custormes" className='nav-link'>Clientes</Link>
+                            <Link to="/customers" className='nav-link'>Clientes</Link>
                             <Link to="/users" className='nav-link'>Usuários</Link>
                         </Nav>
-                    </>
+                    </div>
                 }
 
                 <Navbar.Collapse className='justify-content-end'>
@@ -46,6 +45,7 @@ const Menu = () => {
                         {(auth.signed) &&
                             <>
                                 <Nav.Link href="#" className='fw-bold border-end'>{auth.user?.nome}</Nav.Link>
+                                <Link to="/my-profile" className='nav-link border-end'>Perfil</Link>
                                 <Nav.Link href="#" onClick={handleLogout}>Sair</Nav.Link>
                             </>
                         }

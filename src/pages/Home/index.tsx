@@ -2,8 +2,6 @@ import ProductsGrid from '../../components/ProductsGrid';
 import RootLayout from '../layout';
 
 const Home = () => {
-    
-   
     return (
 
         <RootLayout>
@@ -14,5 +12,3 @@ const Home = () => {
 }
 
 export default Home;
-
-

@@ -105,7 +105,7 @@ const SignUp = () => {
                             {error.message}
                         </Alert>
                     }
-                    <Card className="w-100">
+                    <Card className="m-2">
                         <Card.Header className="text-center fw-bold">Registre-se</Card.Header>
                         <Card.Body>
                             <Form >
