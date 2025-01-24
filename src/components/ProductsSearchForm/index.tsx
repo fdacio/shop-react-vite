@@ -8,8 +8,9 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 const SearchProductHome = () => {
 
     const api = useApi();
-    const [isClickSearch, setIsClickSearch] = useState<boolean>(false);
+
     const [name, setName] = useState<string>("");
+    const [isClickSearch, setIsClickSearch] = useState<boolean>(false);
     const [minPrice, setMinPrice] = useState<string>("");
     const [maxPrice, setMaxPrice] = useState<string>("");
 
@@ -54,9 +55,7 @@ const SearchProductHome = () => {
             _expre += maxPrice;
         }
 
-        
         const refresh = async () => {
-            console.log("Expressão: " + _expre);
             const _products = await api.RequestProductAllHome("?" + _expre);
             api.setProducts(_products);
         }
@@ -64,6 +63,18 @@ const SearchProductHome = () => {
         refresh();
 
     }, [isClickSearch, minPrice, maxPrice]);
+
+    useEffect(() => {
+        if (name.length == 0) {
+            const refresh = async () => {
+                const _products = await api.RequestProductAllHome();
+                api.setProducts(_products);
+            }
+
+            refresh();
+        }
+
+    }, [name]);
 
     return (
         <Form>
