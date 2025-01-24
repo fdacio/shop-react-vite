@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useApi } from "../../context/ApiProvider/useApi";
 import { ApiProduct } from "../../context/ApiProvider/types";
 import './style.css'
+import NoImgage from '../../assets/no-image.jpeg';
 
 const ProductPhoto = ({ product }: { product: ApiProduct }) => {
 
@@ -21,7 +22,7 @@ const ProductPhoto = ({ product }: { product: ApiProduct }) => {
                         setImage(image);
                         setAlt(product.nome);
                     } else {
-                        setImage(image);
+                        setImage(NoImgage);
                         setAlt("Sem imagem");
                     }
                 } catch (err: any) {

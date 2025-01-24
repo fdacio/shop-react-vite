@@ -34,6 +34,8 @@ const SignUp = () => {
         setIsLoading(true);
 
         const payload: ApiSignUp = parsePayload();
+        
+        console.log(payload);
 
         try {
             await api.RequestSignUp(payload);
@@ -71,7 +73,7 @@ const SignUp = () => {
 
         const _customer: ApiCustomer = {
             nome: nome,
-            cpf: cpf,
+            cpf: cpf.replace(/[\.,-]/g, ""),
             endereco: endereco,
             email: email,
             telefone: telefone,
