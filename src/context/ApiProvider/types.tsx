@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { ApiLogin } from "../AuthProvider/types";
 
 export interface ApiContextData {
@@ -9,11 +8,6 @@ export interface ApiContextData {
     RequestProductPhoto(id: number) : any;
     
 }
-
-export interface ApiContextChildrens {
-    children?: ReactNode;
-}
-
 export enum EndPoint {
     AUTH_LOGIN = "/auth/login",
     AUTH_USER_AUTHENTICATE = "/auth/user/authenticated",

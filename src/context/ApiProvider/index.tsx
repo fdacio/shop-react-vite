@@ -1,11 +1,11 @@
-import { createContext } from "react";
-import { ApiContextChildrens, ApiContextData, ApiProduct, ApiSignUp, ApiToken, ApiUser, EndPoint } from "./types";
+import { createContext, ReactNode } from "react";
+import { ApiContextData, ApiProduct, ApiSignUp, ApiToken, ApiUser, EndPoint } from "./types";
 import { ApiLogin } from "../AuthProvider/types";
 import axiosInstance from './axios';
 
 const ApiContext = createContext<ApiContextData>({} as ApiContextData);
 
-export const ApiProvider = ({ children }: ApiContextChildrens) => {
+export const ApiProvider = ({ children }: { children?: ReactNode }) => {
 
     async function RequestLogin(payload: ApiLogin) {
         const response = await axiosInstance.post(EndPoint.AUTH_LOGIN, payload);

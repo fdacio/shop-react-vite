@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { ApiUser } from "../ApiProvider/types";
 
 export interface AuthContextData {
@@ -12,10 +11,6 @@ export interface AuthContextData {
 export interface ApiLogin {
     username: string;
     password: string;
-}
-
-export interface AuthContextChildrens {
-    children?: ReactNode;
 }
 
 export interface AuthError {

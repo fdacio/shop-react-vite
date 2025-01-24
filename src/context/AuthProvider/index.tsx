@@ -1,12 +1,12 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { ApiUser } from '../ApiProvider/types';
 import { useApi } from '../ApiProvider/useApi';
 import { getSession, setSession } from './session';
-import { AuthContextChildrens, AuthContextData, ApiLogin } from './types';
+import { AuthContextData, ApiLogin } from './types';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider = ({ children }: AuthContextChildrens) => {
+export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
     const api = useApi();
 
