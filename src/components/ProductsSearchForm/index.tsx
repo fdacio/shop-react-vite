@@ -2,13 +2,20 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
+import { useAppShop } from "../../context/AppProvider/useAppShop";
 
 const SearchProductHome = () => {
 
+    const app = useAppShop();
+
     const [param, setParam] = useState<string>("");
 
+
     const handleSearchProducts = () => {
-        console.log(param);
+        console.log(3);
+        console.log(JSON.stringify(app), null, '\t');
+        
+        app.searchProductFunction();
     }
 
     return (
