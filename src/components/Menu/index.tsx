@@ -1,11 +1,10 @@
 import { Nav, Navbar } from 'react-bootstrap';
-import { useAuth } from '../../context/AuthProvider/useAuth';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthProvider/useAuth';
 
 const Menu = () => {
 
     const location = useLocation();
-    const isRouteHome = location.pathname === "/";
     const isRouteLogin = location.pathname === "/login";
     const auth = useAuth();
 
@@ -20,9 +19,6 @@ const Menu = () => {
                 <Navbar.Brand href="#"></Navbar.Brand>
                 <Nav>
                     <Link to="/" className='nav-link'>Início</Link>
-                    {(isRouteHome) &&
-                        <Link to="/" className='nav-link'>Filtro</Link>
-                    }
                 </Nav>
                 {(auth.signed) &&
                     <div className='border-start'>
