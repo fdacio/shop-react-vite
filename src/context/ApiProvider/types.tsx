@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { ApiLogin } from "../AuthProvider/types";
 
 export interface ApiContextData {
@@ -6,6 +7,8 @@ export interface ApiContextData {
     RequestProductAllHome(params?: string) : Promise<ApiProduct[]>;
     RequestSignUp(payload: ApiSignUp) : Promise<ApiSignUp>
     RequestProductPhoto(id: number) : any;
+    products: ApiProduct[];
+    setProducts: Dispatch<SetStateAction<ApiProduct[]>>
     
 }
 export enum EndPoint {

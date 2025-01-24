@@ -1,11 +1,13 @@
-import { createContext, ReactNode } from "react";
-import { ApiContextData, ApiProduct, ApiSignUp, ApiToken, ApiUser, EndPoint } from "./types";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { ApiLogin } from "../AuthProvider/types";
 import axiosInstance from './axios';
+import { ApiContextData, ApiProduct, ApiSignUp, ApiToken, ApiUser, EndPoint } from "./types";
 
 const ApiContext = createContext<ApiContextData>({} as ApiContextData);
 
 export const ApiProvider = ({ children }: { children?: ReactNode }) => {
+
+    const [products, setProducts] = useState<ApiProduct[]>([]);
 
     async function RequestLogin(payload: ApiLogin) {
         const response = await axiosInstance.post(EndPoint.AUTH_LOGIN, payload);
@@ -27,7 +29,8 @@ export const ApiProvider = ({ children }: { children?: ReactNode }) => {
     }
 
     async function RequestProductAllHome(params?: string) {
-        const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + params);
+        const _p = (params != undefined) ? params : "";
+        const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + _p);
         const products: ApiProduct[] = response.data.content;
         return products;
     }
@@ -41,8 +44,21 @@ export const ApiProvider = ({ children }: { children?: ReactNode }) => {
         RequestUserAuthenticated,
         RequestProductAllHome,
         RequestSignUp,
-        RequestProductPhoto
+        RequestProductPhoto, 
+        products,
+        setProducts
     }
+
+    useEffect(() => {
+        const loadProducts = async () => { 
+            const response = await axiosInstance.get(EndPoint.PRODUCT_HOME);
+            const _products: ApiProduct[] = response.data.content;
+            setProducts(_products);
+        }
+
+        loadProducts();
+
+    }, []);
 
     return (
         <ApiContext.Provider value={contextData}>

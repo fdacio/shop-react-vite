@@ -1,15 +1,28 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
+import { useApi } from "../../context/ApiProvider/useApi";
 
 const SearchProductHome = () => {
 
+    const api = useApi();
     const [param, setParam] = useState<string>("");
-    
-    const handleSearchProducts = () => {       
-        
+
+    const handleSearchProducts = async () => {
+        const _products = await api.RequestProductAllHome("?nome=" + param);
+        api.setProducts(_products);
     }
+
+    useEffect(() => {
+        const refresh = async () => {
+            if (param.length == 0) {
+                const _products = await api.RequestProductAllHome();
+                api.setProducts(_products);
+            }
+        }
+        refresh();
+    }, [param]);
 
     return (
         <Form>

@@ -17,6 +17,12 @@ body {
   padding-bottom: 150px;
 }
 
+::placeholder {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #bebebe !important;
+} 
+
 
 @media (prefers-color-scheme: light) {
   :root {

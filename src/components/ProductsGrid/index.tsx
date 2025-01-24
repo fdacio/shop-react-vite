@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { ApiProduct } from "../../context/ApiProvider/types";
 import { useApi } from "../../context/ApiProvider/useApi";
@@ -6,26 +5,14 @@ import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
 import './style.css';
 
-
 const ProductsGrid = () => {
 
     const api = useApi();
-    const [products, setProducts] = useState<ApiProduct[] | []>([]);
-
-    useEffect(() => {
-
-        const getProducts = async () => {
-            const products = await api.RequestProductAllHome("");
-            setProducts(products);
-        }
-        getProducts();
-
-    }, []);   
 
     return (
 
         <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid >
-            {products?.map((product: ApiProduct) => {
+            {api.products?.map((product: ApiProduct) => {
                 return (
                     <Card className='product-card' key={product.id}>
                         <Card.Body>
