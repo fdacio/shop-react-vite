@@ -1,7 +1,7 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface AppContextData {
-    functionSearch: () => void;
+    functionSearch: (param: string) => void;
     setFunctionSearch: Dispatch<SetStateAction<() => void>>;
     
 }

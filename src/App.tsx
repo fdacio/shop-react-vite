@@ -7,11 +7,11 @@ function App() {
 
   return (
     <ApiProvider>
-      <AuthProvider >
-        <AppProvider>
-          <Routes />
-        </AppProvider>
-      </AuthProvider>
+        <AuthProvider >
+          <AppProvider>
+            <Routes />
+          </AppProvider>
+        </AuthProvider>
     </ApiProvider>
   );
 }

@@ -1,20 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { ApiProduct } from "../../context/ApiProvider/types";
 import { useApi } from "../../context/ApiProvider/useApi";
 import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
 import './style.css';
-import { useAppShop } from "../../context/AppProvider/useAppShop";
-import AppContext from "../../context/AppProvider";
+
 
 const ProductsGrid = () => {
 
-    const appContext = useContext(AppContext);
-    const appShop = useAppShop();
     const api = useApi();
     const [products, setProducts] = useState<ApiProduct[] | []>([]);
-
 
     useEffect(() => {
 
@@ -22,32 +18,9 @@ const ProductsGrid = () => {
             const products = await api.RequestProductAllHome("");
             setProducts(products);
         }
-
         getProducts();
 
-        console.log("useEffect Grid Product");
-        console.log(JSON.stringify(appContext), null, '\t');
-        console.log(JSON.stringify(appShop), null, '\t');
-
-        // const handleSearchProducts = async (param?: string) => {
-        //     const products = await api.RequestProductAllHome(param);
-        //     setProducts(products);
-        // }
-
-        // console.log(1);
-        // console.log(JSON.stringify(app), null, '\t');
-        // app.setFunctionSearch(handleSearchProducts);
-        // console.log(2);
-        // console.log(JSON.stringify(app), null, '\t');
-        // console.log("useEffect setFunctionSearch Grid Product");
-
-
-    }, []);
-
-    const handleSearchProducts = async (param?: string) => {
-        const products = await api.RequestProductAllHome(param);
-        setProducts(products);
-    }
+    }, []);   
 
     return (
 
