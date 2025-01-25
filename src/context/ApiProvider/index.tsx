@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { ApiLogin } from "../AuthProvider/types";
 import axiosInstance from './axios';
-import { ApiContextData, ApiProduct, ApiSignUp, ApiToken, ApiUser, EndPoint } from "./types";
+import { ApiContextData, ApiPageable, ApiProduct, ApiSignUp, ApiToken, ApiUser, EndPoint } from "./types";
 
 const ApiContext = createContext<ApiContextData>({} as ApiContextData);
 
@@ -39,9 +39,16 @@ export const ApiProvider = ({ children }: { children?: ReactNode }) => {
         return (await axiosInstance.get(EndPoint.PRODUCT_PHOTO.replace('__id__', id.toString()), { responseType: 'blob' })).data;
     }
 
+    async function RequestProductAll()  {
+        const response = await axiosInstance.get(EndPoint.PRODUCT + '/pageable');
+        const data: ApiPageable<ApiProduct> = response.data;
+        return data;
+    }
+
     const contextData = {
         RequestLogin,
         RequestUserAuthenticated,
+        RequestProductAll,
         RequestProductAllHome,
         RequestSignUp,
         RequestProductPhoto, 

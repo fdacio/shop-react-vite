@@ -8,7 +8,7 @@ const Menu = () => {
     const isRouteLogin = location.pathname === "/login";
     const auth = useAuth();
 
-    function handleLogout() {
+    function handlerLogout() {
         auth.SignOut();
     }
 
@@ -42,7 +42,7 @@ const Menu = () => {
                             <>
                                 <Nav.Link href="#" className='fw-bold border-end'>{auth.user?.nome}</Nav.Link>
                                 <Link to="/my-profile" className='nav-link border-end'>Perfil</Link>
-                                <Nav.Link href="#" onClick={handleLogout}>Sair</Nav.Link>
+                                <Nav.Link href="#" onClick={handlerLogout}>Sair</Nav.Link>
                             </>
                         }
                     </Nav>
