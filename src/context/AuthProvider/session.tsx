@@ -1,4 +1,4 @@
-import { ApiUser } from "../ApiProvider/types";
+import { ApiUser } from "../ApiProvider/Auth/types";
 
 const keySession = 'shop-user';
 

@@ -1,4 +1,12 @@
+import { ApiLogin } from "../../AuthProvider/types";
 import { ApiCustomer } from "../Customer/types";
+
+export interface ApiAuthContextData {
+    RequestLogin(payload: ApiLogin): Promise<ApiToken>;
+    RequestUserAuthenticated(): Promise<ApiUser>;
+    RequestSignUp(payload: ApiSignUp): Promise<ApiSignUp>
+}
+
 
 export interface ApiToken {
     token?: string;

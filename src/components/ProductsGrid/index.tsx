@@ -1,9 +1,10 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { ApiProduct } from "../../context/ApiProvider/types";
+
 import { useApi } from "../../context/ApiProvider/useApi";
 import { formatMoney } from "../../utils";
 import ProductPhoto from "../ProductPhoto";
 import './style.css';
+import { ApiProduct } from "../../context/ApiProvider/Product/types";
 
 const ProductsGrid = () => {
 

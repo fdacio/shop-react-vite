@@ -1,5 +1,7 @@
 import { ApiCategory } from "../Product/types";
 
+
+
 export interface ApiCustomer {
     nome: string;
     cpf: string;

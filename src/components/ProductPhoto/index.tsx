@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useApi } from "../../context/ApiProvider/useApi";
-import { ApiProduct } from "../../context/ApiProvider/types";
 import './style.css'
 import NoImgage from '../../assets/no-image.jpeg';
+import { ApiProduct } from "../../context/ApiProvider/Product/types";
 
 const ProductPhoto = ({ product }: { product: ApiProduct }) => {
 
@@ -16,7 +16,7 @@ const ProductPhoto = ({ product }: { product: ApiProduct }) => {
 
             const _call = async (id: number) => {
                 try {
-                    let imageBlob = await api.RequestProductPhoto(id);
+                    let imageBlob = await api.ApiProductContextData.RequestProductPhoto(id);
                     if (imageBlob.size > 0) {
                         let image = URL.createObjectURL(imageBlob);
                         setImage(image);

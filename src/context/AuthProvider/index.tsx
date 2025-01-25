@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { ApiUser } from '../ApiProvider/types';
+
 import { useApi } from '../ApiProvider/useApi';
 import { getSession, setSession } from './session';
 import { AuthContextData, ApiLogin } from './types';
+import { ApiUser } from '../ApiProvider/Auth/types';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -16,12 +17,12 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
         try {
 
-            const responseToken = await api.RequestLogin(payload);
+            const responseToken = await api.ApiAuthContextData.RequestLogin(payload);
             const apiUser: ApiUser = {token: responseToken.token};
             setSession(apiUser);
 
             if (responseToken.token) {
-                const responseUser = await api.RequestUserAuthenticated();
+                const responseUser = await api.ApiAuthContextData.RequestUserAuthenticated();
                 console.log(responseUser);
                 apiUser.nome = responseUser.nome;
                 apiUser.email = responseUser.email;

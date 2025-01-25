@@ -1,19 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
-import { ApiLogin } from "../AuthProvider/types";
-import { ApiSignUp, ApiToken, ApiUser } from "./Auth/types";
-import { ApiProduct } from "./Product/types";
+import { ApiAuthContextData } from "./Auth/types";
+import { ApiProduct, ApiProductContextData } from "./Product/types";
 
 export interface ApiContextData {
-    RequestLogin(payload: ApiLogin): Promise<ApiToken>;
-    RequestUserAuthenticated(): Promise<ApiUser>;
-    RequestProductAll(): Promise<ApiPageable<ApiProduct>>;
-    RequestProductAllHome(params?: string): Promise<ApiProduct[]>;
-    RequestSignUp(payload: ApiSignUp): Promise<ApiSignUp>
-    RequestProductPhoto(id: number): any;
     products: ApiProduct[];
     setProducts: Dispatch<SetStateAction<ApiProduct[]>>
-
+    ApiProductContextData : ApiProductContextData;
+    ApiAuthContextData : ApiAuthContextData;
 }
+
 export enum EndPoint {
     AUTH_LOGIN = "/auth/login",
     AUTH_USER_AUTHENTICATE = "/auth/user/authenticated",

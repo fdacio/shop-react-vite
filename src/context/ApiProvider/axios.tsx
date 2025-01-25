@@ -1,7 +1,7 @@
 
 import axios from 'axios';
-import { ApiUser } from './types';
 import { getSession } from '../AuthProvider/session';
+import { ApiUser } from './Auth/types';
 
 const URL_BASE = import.meta.env.VITE_API_URL;
 

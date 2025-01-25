@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Nav, Pagination, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ApiPageable, ApiProduct } from '../../../context/ApiProvider/types';
+import { ApiPageable } from '../../../context/ApiProvider/types';
 import { useApi } from '../../../context/ApiProvider/useApi';
 import { formatMoney } from '../../../utils';
 import RootAdminLayout from '../layout';
+import { ApiProduct } from '../../../context/ApiProvider/Product/types';
 
 const Products = () => {
 
@@ -23,7 +24,7 @@ const Products = () => {
         const handlerList = async () => {
 
             try {
-                const response = await api.RequestProductAll();                
+                const response = await api.ApiProductContextData.RequestProductAll();                
                 setProductsPageable(response);
             } catch (error) {
 
