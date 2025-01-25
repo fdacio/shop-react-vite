@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { ApiLogin } from "../AuthProvider/types";
+import { ApiSignUp, ApiToken, ApiUser } from "./Auth/types";
+import { ApiProduct } from "./Product/types";
 
 export interface ApiContextData {
     RequestLogin(payload: ApiLogin): Promise<ApiToken>;
@@ -58,75 +60,4 @@ export interface ApiPageable<T> {
     data1:ApiPageableData1,
     data2:ApiPageableData2,
 }
-
-export interface ApiToken {
-    token?: string;
-    expired?: number;
-}
-
-export interface ApiRule {
-    id?: number,
-    nome?: string;
-}
-export interface ApiUser {
-    id?: number;
-    nome?: string;
-    email?: string;
-    token?: string;
-    rules?: ApiRule[];
-}
-
-export interface ApiCategory {
-    id?: number,
-    nome?: string;
-}
-
-export interface ApiProduct {
-    id: number,
-    nome: string,
-    descricao: string,
-    identifier: string,
-    preco: number;
-    category: ApiCategory,
-    foto: string
-}
-
-export interface ApiCustomer {
-    nome: string;
-    cpf: string;
-    endereco: string;
-    email: string;
-    telefone: string;
-    interesses?: ApiCategory[];
-}
-
-
-export interface ApiPassword {
-    password: string;
-    rePassword: string;
-}
-
-export interface ApiCustomerSignUp {
-    'customer.nome': string;
-    'customer.cpf': string;
-    'customer.endereco': string;
-    'customer.email': string;
-    'customer.telefone': string;
-    'password.password': string;
-    'password.rePassword': string;
-}
-
-export interface ApiSignUp {
-    customer: ApiCustomer;
-    password: ApiPassword;
-}
-
-export interface SignUpError {
-    message: string;
-    fields: {
-        customer: ApiCustomer,
-        password: ApiPassword
-    };
-}
-
 
