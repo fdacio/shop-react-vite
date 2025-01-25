@@ -9,13 +9,13 @@ const ApiContext = createContext<ApiContextData>({} as ApiContextData);
 
 export const ApiProvider = ({ children }: { children?: ReactNode }) => {
 
-    const [products, setProducts] = useState<ApiProduct[]>([]);
+    const [productsHome, setProductsHome] = useState<ApiProduct[]>([]);
 
     useEffect(() => {
         const loadProducts = async () => {
             const response = await axiosInstance.get(EndPoint.PRODUCT_HOME);
             const _products: ApiProduct[] = response.data.content;
-            setProducts(_products);
+            setProductsHome(_products);
         }
 
         loadProducts();
@@ -23,10 +23,10 @@ export const ApiProvider = ({ children }: { children?: ReactNode }) => {
     }, []);
 
     const contextData: ApiContextData = {
-        ApiProductContextData: apiProductContextData,
-        ApiAuthContextData: apiAuthContextData,
-        products,
-        setProducts,
+        ApiProduct: apiProductContextData,
+        ApiAuth: apiAuthContextData,
+        productsHome: productsHome,
+        setProductsHome: setProductsHome,
     }
 
 

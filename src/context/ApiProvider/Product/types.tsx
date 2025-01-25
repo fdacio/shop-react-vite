@@ -4,7 +4,6 @@ export interface ApiProductContextData {
     RequestProductAll(): Promise<ApiPageable<ApiProduct>>;
     RequestProductAllHome(params?: string): Promise<ApiProduct[]>;
     RequestProductPhoto(id: number): any;
-
 }
 
 export interface ApiCategory {

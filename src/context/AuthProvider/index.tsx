@@ -17,12 +17,12 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
         try {
 
-            const responseToken = await api.ApiAuthContextData.RequestLogin(payload);
+            const responseToken = await api.ApiAuth.RequestLogin(payload);
             const apiUser: ApiUser = {token: responseToken.token};
             setSession(apiUser);
 
             if (responseToken.token) {
-                const responseUser = await api.ApiAuthContextData.RequestUserAuthenticated();
+                const responseUser = await api.ApiAuth.RequestUserAuthenticated();
                 console.log(responseUser);
                 apiUser.nome = responseUser.nome;
                 apiUser.email = responseUser.email;

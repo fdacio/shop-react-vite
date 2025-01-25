@@ -56,8 +56,8 @@ const SearchProductHome = () => {
         }
 
         const refresh = async () => {
-            const _products = await api.RequestProductAllHome("?" + _expre);
-            api.setProducts(_products);
+            const _products = await api.ApiProduct.RequestProductAllHome("?" + _expre);
+            api.setProductsHome(_products);
         }
 
         refresh();
@@ -67,8 +67,8 @@ const SearchProductHome = () => {
     useEffect(() => {
         if (name.length == 0) {
             const refresh = async () => {
-                const _products = await api.RequestProductAllHome();
-                api.setProducts(_products);
+                const _products = await api.ApiProduct.RequestProductAllHome();
+                api.setProductsHome(_products);
             }
 
             refresh();

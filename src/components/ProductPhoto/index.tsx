@@ -16,7 +16,7 @@ const ProductPhoto = ({ product }: { product: ApiProduct }) => {
 
             const _call = async (id: number) => {
                 try {
-                    let imageBlob = await api.ApiProductContextData.RequestProductPhoto(id);
+                    let imageBlob = await api.ApiProduct.RequestProductPhoto(id);
                     if (imageBlob.size > 0) {
                         let image = URL.createObjectURL(imageBlob);
                         setImage(image);

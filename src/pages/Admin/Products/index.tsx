@@ -24,7 +24,7 @@ const Products = () => {
         const handlerList = async () => {
 
             try {
-                const response = await api.ApiProductContextData.RequestProductAll();                
+                const response = await api.ApiProduct.RequestProductAll();                
                 setProductsPageable(response);
             } catch (error) {
 
@@ -83,8 +83,8 @@ const Products = () => {
                     <thead className='thead-dark'>
                         <tr>
                             <th className='col-md-1'>Código</th>
-                            <th className='col-md-5'>Nome</th>
-                            <th className='col-md-3'>Categoria</th>
+                            <th className='col-md-6'>Nome</th>
+                            <th className='col-md-2'>Categoria</th>
                             <th className='col-md-2 text-end'>Valor</th>
                             <th className='col-md-1'>Ações</th>
                         </tr>
@@ -97,8 +97,8 @@ const Products = () => {
                                     <td>{product.nome}</td>
                                     <td>{product.category.nome}</td>
                                     <td className='text-end'>{formatMoney(product.preco)}</td>
-                                    <td className='d-flex justify-content-end'>
-                                        <Nav className='text-nowrap d-flex'>
+                                    <td className='justify-content-end align-items-center align-content-center '>
+                                        <Nav className='text-nowrap d-flex h-100'>
                                             <Link to={`/products/${product.id}`}>
                                                 <Button variant="primary" size="sm" className='mx-1' onClick={handlerSearchProducts}>
                                                     <FontAwesomeIcon icon={faEdit} />

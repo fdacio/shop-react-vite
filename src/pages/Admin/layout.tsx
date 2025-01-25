@@ -9,10 +9,10 @@ export default function RootAdminLayout({ children }: { children: ReactNode }) {
         <>
             <Header />
             <Row>
-                <Col md="2">
+                <Col md="2" sm={0}>
                     <MenuAdmin />
                 </Col>
-                <Col md="10">
+                <Col md="10" sm={12}>
                     <div className="container-layout">
                         {children}
                     </div>

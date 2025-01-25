@@ -13,7 +13,7 @@ const ProductsGrid = () => {
     return (
 
         <Container className="d-flex gap-2 flex-wrap justify-content-md-center mt-3" fluid >
-            {api.products?.map((product: ApiProduct) => {
+            {api.productsHome?.map((product: ApiProduct) => {
                 return (
                     <Card className='product-card' key={product.id}>
                         <Card.Body>

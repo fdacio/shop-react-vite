@@ -3,10 +3,10 @@ import { ApiAuthContextData } from "./Auth/types";
 import { ApiProduct, ApiProductContextData } from "./Product/types";
 
 export interface ApiContextData {
-    products: ApiProduct[];
-    setProducts: Dispatch<SetStateAction<ApiProduct[]>>
-    ApiProductContextData : ApiProductContextData;
-    ApiAuthContextData : ApiAuthContextData;
+    ApiProduct : ApiProductContextData;
+    ApiAuth : ApiAuthContextData;
+    productsHome: ApiProduct[];
+    setProductsHome: Dispatch<SetStateAction<ApiProduct[]>>
 }
 
 export enum EndPoint {
