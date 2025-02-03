@@ -11,7 +11,7 @@ import Orders from '../pages/Admin/Orders';
 import Customers from '../pages/Admin/Customers';
 
 
-const AppRoutes: React.FC = () => {
+const AppRoutes = () => {
     return (
 
         <BrowserRouter>

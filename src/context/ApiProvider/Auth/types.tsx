@@ -9,8 +9,8 @@ export interface ApiAuthContextData {
 
 
 export interface ApiToken {
-    token?: string;
-    expired?: number;
+    token: string;
+    expired: number;
 }
 
 export interface ApiRule {

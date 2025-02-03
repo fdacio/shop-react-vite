@@ -1,16 +1,15 @@
-import { createContext, ReactNode, useCallback, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { AppContextData } from "./types";
 
 const AppContext = createContext<AppContextData>({} as AppContextData);
 
 export const AppProvider = ({ children }: { children?: ReactNode }) => {
 
-    const [functionSearch, setFunctionSearch] = useState<() => void>(() => { });
+    const [message, setMessage] = useState<string>("");
 
-    useCallback(() => { setFunctionSearch(functionSearch) }, [functionSearch]);
-
+ 
     return (
-        <AppContext.Provider value={{ functionSearch, setFunctionSearch }}>
+        <AppContext.Provider value={{ message, setMessage }}>
             {children}
         </AppContext.Provider>
     );
