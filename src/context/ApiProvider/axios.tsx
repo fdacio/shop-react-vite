@@ -77,8 +77,13 @@ axiosInstance.interceptors.response.use(
 
 		const originalRequest = error.config;
 
+		const message = error.response?.data?.message;
+		const regex = /token/i; // Case-insensitive search for "world"
+
 		// Se a requisição der erro, verifica se o erro é de autenticação
-		if (error.response?.status === 401 && !originalRequest._retry) {
+		const isTokenExpired =regex.test(message); // true
+		
+		if (error.response?.status === 401 && !originalRequest._retry && isTokenExpired) {
 
 
 			// Se o erro for de autenticação, verifica se o erro foi de token expirado

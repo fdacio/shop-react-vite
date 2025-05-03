@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Button, Col, Dropdown, Form, InputGroup, Row } from "react-bootstrap";
 import { useApi } from "../../context/ApiProvider/useApi";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 
 const SearchProductHome = () => {
 
@@ -11,28 +11,30 @@ const SearchProductHome = () => {
 
     const [name, setName] = useState<string>("");
     const [isClickSearch, setIsClickSearch] = useState<boolean>(false);
-    const [minPrice, setMinPrice] = useState<string>("");
-    const [maxPrice, setMaxPrice] = useState<string>("");
+    const [sortName, setSortName] = useState<string>("");
+    const [sortMinPrice, setSortMinPrice] = useState<string>("");
+    const [sortMaxPrice, setSortMaxPrice] = useState<string>("");
+
 
     const handleSearchProducts = async () => {
         setIsClickSearch(true);
     }
 
     const handlerFilterMenorPreco = () => {
-        setMinPrice("sort=preco,asc");
-        setMaxPrice("");
+        setSortMinPrice("&sort=preco,asc");
+        setSortMaxPrice("");
     }
 
     const handlerFilterMaiorPreco = () => {
-        setMaxPrice("sort=preco,desc");
-        setMinPrice("");
+        setSortMaxPrice("&sort=preco,desc");
+        setSortMinPrice("");
     }
 
 
-    const handlerFilterTudo = () => {
-        setName("");
-        setMinPrice("");
-        setMaxPrice("");
+    const handlerFilterNome = () => {
+        setSortName("&sort=nome,asc");
+        setSortMinPrice("");
+        setSortMaxPrice("");
     }
 
     useEffect(() => {
@@ -41,18 +43,25 @@ const SearchProductHome = () => {
         if (name.length > 0) {
             _expre += "nome=" + name;
         }
-        if (minPrice.length > 0) {
+        if (sortMinPrice.length > 0) {
             if (_expre.length > 0) {
                 _expre += "&";
             }
-            _expre += minPrice;
+            _expre += sortMinPrice;
         }
 
-        if (maxPrice.length > 0) {
+        if (sortMaxPrice.length > 0) {
             if (_expre.length > 0) {
                 _expre += "&";
             }
-            _expre += maxPrice;
+            _expre += sortMaxPrice;
+        }
+
+        if (sortName.length > 0) {
+            if (_expre.length > 0) {
+                _expre += "&";
+            }
+            _expre += sortName;
         }
 
         const refresh = async () => {
@@ -62,7 +71,7 @@ const SearchProductHome = () => {
 
         refresh();
 
-    }, [isClickSearch, minPrice, maxPrice]);
+    }, [isClickSearch, sortMinPrice, sortMaxPrice]);
 
     useEffect(() => {
         if (name.length == 0) {
@@ -96,13 +105,13 @@ const SearchProductHome = () => {
                 <Col md={2}>
                     <Dropdown style={{ zIndex: 10000 }}>
                         <Dropdown.Toggle variant="light" id="dropdown-basic">
-                            <FontAwesomeIcon icon={faFilter} />
+                            <FontAwesomeIcon icon={faSort} />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
                             <Dropdown.Item href="#" onClick={handlerFilterMenorPreco}>Menor Preço</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={handlerFilterMaiorPreco}>Maior Preço</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={handlerFilterTudo}>Tudo</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={handlerFilterNome}>Nome</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>

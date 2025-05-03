@@ -1,11 +1,11 @@
-import RootLayout from "../../layout";
+import RootAdminLayout from "../layout";
 
 const Orders = () => {
 
     return (
-        <RootLayout>
+        <RootAdminLayout>
             <h1>Pedidos</h1>
-        </RootLayout>
+        </RootAdminLayout>
     );
 
 }

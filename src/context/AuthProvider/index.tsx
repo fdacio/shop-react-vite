@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useApi } from '../ApiProvider/useApi';
-import { setUserSession, setTokenSession, clearSession } from './session';
+import { setUserSession, setTokenSession, clearSession, getUserSession } from './session';
 import { AuthContextData, ApiLogin } from './types';
 import { ApiUser } from '../ApiProvider/Auth/types';
 
@@ -39,6 +39,11 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
         clearSession();
         setUser(null);
     }
+
+    useEffect(() => {
+        const userSession = getUserSession();
+        setUser(userSession);    
+    },[]);
 
 
     return (

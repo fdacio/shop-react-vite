@@ -2,11 +2,13 @@ import { Dispatch, SetStateAction } from "react";
 import { ApiAuthContextData } from "./Auth/types";
 import { ApiProduct, ApiProductContextData } from "./Product/types";
 import { ApiCustomerContextData } from "./Customer/types";
+import { ApiUserContextData } from "./User/types";
 
 export interface ApiContextData {
     ApiProduct : ApiProductContextData;
     ApiAuth : ApiAuthContextData;
-    ApiCustomer: ApiCustomerContextData
+    ApiCustomer: ApiCustomerContextData;
+    ApiUserCrud: ApiUserContextData;
     productsHome: ApiProduct[];
     setProductsHome: Dispatch<SetStateAction<ApiProduct[]>>
 }

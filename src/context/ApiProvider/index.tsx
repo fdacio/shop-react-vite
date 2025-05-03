@@ -1,11 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { useAppShop } from "../AppProvider/useAppShop";
 import { apiAuthContextData } from "./Auth";
+import { apiCustomerContextData } from "./Customer";
 import { apiProductContextData } from "./Product";
-import { ApiContextData, EndPoint } from "./types";
+import { apiUserContextData } from "./User";
 import { ApiProduct } from "./Product/types";
 import axiosInstance from "./axios";
-import { useAppShop } from "../AppProvider/useAppShop";
-import { apiCustomerContextData } from "./Customer";
+import { ApiContextData, EndPoint } from "./types";
 
 const ApiContext = createContext<ApiContextData>({} as ApiContextData);
 
@@ -18,7 +19,7 @@ export const ApiProvider = ({ children }: { children?: ReactNode }) => {
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                const response = await axiosInstance.get(EndPoint.PRODUCT_HOME);
+                const response = await axiosInstance.get(EndPoint.PRODUCT_HOME + "?sort=nome,asc");
                 const products: ApiProduct[] = response.data.content;
                 setProductsHome(products);
             } catch (err: any) {
@@ -34,6 +35,7 @@ export const ApiProvider = ({ children }: { children?: ReactNode }) => {
         ApiProduct: apiProductContextData,
         ApiAuth: apiAuthContextData,
         ApiCustomer: apiCustomerContextData,
+        ApiUserCrud: apiUserContextData,
         productsHome: productsHome,
         setProductsHome: setProductsHome,
     }
