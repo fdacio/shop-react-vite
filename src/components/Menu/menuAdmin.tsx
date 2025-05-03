@@ -27,7 +27,7 @@ const MenuAdmin = () => {
             <Nav className="flex-column w-100 p-2">
                 <Link to="/" className="nav-link"><FontAwesomeIcon icon={faHome} className="mx-2"/>Início</Link>
                 <Link to="/products" className="nav-link"><FontAwesomeIcon icon={faBarcode} className="mx-2"/>Produtos</Link>
-                <Link to="/cutomers" className="nav-link"><FontAwesomeIcon icon={faPeopleGroup} className="mx-2"/>Clientes</Link>
+                <Link to="/customers" className="nav-link"><FontAwesomeIcon icon={faPeopleGroup} className="mx-2"/>Clientes</Link>
                 <Link to="/orders" className="nav-link"><FontAwesomeIcon icon={faCartShopping} className="mx-2"/>Pedidos</Link>
                 <Link to="/user" className="nav-link"><FontAwesomeIcon icon={faUsers} className="mx-2"/>Usuários</Link>
                 <Nav className="border-top">

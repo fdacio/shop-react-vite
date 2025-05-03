@@ -1,10 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 import { ApiAuthContextData } from "./Auth/types";
 import { ApiProduct, ApiProductContextData } from "./Product/types";
+import { ApiCustomerContextData } from "./Customer/types";
 
 export interface ApiContextData {
     ApiProduct : ApiProductContextData;
     ApiAuth : ApiAuthContextData;
+    ApiCustomer: ApiCustomerContextData
     productsHome: ApiProduct[];
     setProductsHome: Dispatch<SetStateAction<ApiProduct[]>>
 }
@@ -17,6 +19,7 @@ export enum EndPoint {
     PRODUCT_HOME = "/product/all/home",
     PRODUCT = "/product",
     PRODUCT_PHOTO = "/product/__id__/photo",
+    CUSTOMER = "/customer",
 
 }
 interface ApiPageableData1 {

@@ -26,7 +26,17 @@ const Login = () => {
             await auth.SignIn(parseLoginPayload());
             navigate("/");
         } catch (error: any) {
-            setError(error.response?.data);
+            if (error.response?.data?.fields) {
+                setError({
+                    message: error.response?.data?.message,
+                    fields: {
+                        username: error.response?.data?.fields?.username,
+                        password: error.response?.data?.fields?.password
+                    }
+                });
+            } else if (error.response?.data?.message) {
+                setError(error.response?.data);
+            }
         }
 
         setIsLoading(false);

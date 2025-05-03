@@ -1,7 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-
+import { createContext, ReactNode, useState } from 'react';
 import { useApi } from '../ApiProvider/useApi';
-import { getSession, setSession } from './session';
+import { setUserSession, setTokenSession, clearSession } from './session';
 import { AuthContextData, ApiLogin } from './types';
 import { ApiUser } from '../ApiProvider/Auth/types';
 
@@ -17,34 +16,30 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
         try {
 
-            const responseToken = await api.ApiAuth.RequestLogin(payload);
-            const apiUser: ApiUser = {token: responseToken.token};
-            setSession(apiUser);
-
-            if (responseToken.token) {
+            const apiToken = await api.ApiAuth.RequestLogin(payload);
+            const token = apiToken.token;
+            if (token) {
+                setTokenSession(token);
                 const responseUser = await api.ApiAuth.RequestUserAuthenticated();
-                console.log(responseUser);
-                apiUser.nome = responseUser.nome;
-                apiUser.email = responseUser.email;
-                apiUser.rules = responseUser.rules;
+                const apiUser: ApiUser = {                    
+                    nome  : responseUser.nome,
+                    email : responseUser.email,
+                    rules : responseUser.rules
+                };
+                setUserSession(apiUser);
                 setUser(apiUser);
-                setSession(apiUser);
             }
 
         } catch (excpetion: any) {
-            console.log(excpetion);
             throw excpetion;
         }
     }
 
     function SignOut() {
+        clearSession();
         setUser(null);
-        setSession(null);
     }
 
-    useEffect(() => {
-        setUser(getSession());
-    }, []);
 
     return (
         <AuthContext.Provider value={{ SignIn, SignOut, user, signed: Boolean(user) }}>

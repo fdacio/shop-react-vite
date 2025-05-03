@@ -1,7 +1,7 @@
 import { faAdd, faEdit, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Form, Nav, Pagination, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Nav, Pagination, Row, Spinner, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ApiPageable } from '../../../context/ApiProvider/types';
 import { useApi } from '../../../context/ApiProvider/useApi';
@@ -14,9 +14,17 @@ const Products = () => {
     const api = useApi();
     const [productsPageable, setProductsPageable] = useState<ApiPageable<ApiProduct>>();
     const [name, setName] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handlerSearchProducts = () => {
+    const handlerSearchProducts = async () => {
+        setIsLoading(true);
+        try {
+            const response = await api.ApiProduct.RequestProductAll();
+            setProductsPageable(response);
+        } catch (error) {
 
+        }
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -24,7 +32,7 @@ const Products = () => {
         const handlerList = async () => {
 
             try {
-                const response = await api.ApiProduct.RequestProductAll();                
+                const response = await api.ApiProduct.RequestProductAll();
                 setProductsPageable(response);
             } catch (error) {
 
@@ -67,7 +75,23 @@ const Products = () => {
                                 </Col>
                                 <Col md={2} sm={2} className='d-flex justify-content-end'>
                                     <Button variant="primary" size="sm" className="text-nowrap" onClick={handlerSearchProducts}>
-                                        <FontAwesomeIcon icon={faSearch} /> Pesquisar
+                                        {(isLoading)
+                                            ? <>
+                                                <Spinner
+                                                    as="span"
+                                                    animation="grow"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="false"
+                                                    className="mr-2"
+                                                />
+                                                Aguarde...
+                                            </>
+                                            : <>
+                                                <FontAwesomeIcon icon={faSearch} /> Pesquisar
+                                            </>
+                                        }
+
                                     </Button>
                                 </Col>
                             </Row>

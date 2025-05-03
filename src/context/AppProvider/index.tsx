@@ -10,6 +10,7 @@ export const AppProvider = ({ children }: { children?: ReactNode }) => {
  
     return (
         <AppContext.Provider value={{ message, setMessage }}>
+            {message}
             {children}
         </AppContext.Provider>
     );

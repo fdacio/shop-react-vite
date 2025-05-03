@@ -1,214 +1,130 @@
-
-import axios, { AxiosError } from 'axios';
-import { getSession } from '../AuthProvider/session';
-import { ApiToken, ApiUser } from './Auth/types';
-import { useAuth } from '../AuthProvider/useAuth';
-import { useAppShop } from '../AppProvider/useAppShop';
+import axios from 'axios';
+import { getTokenSession, setTokenSession } from '../AuthProvider/session';
 
 const URL_BASE = import.meta.env.VITE_API_URL;
 
-let isRefreshing = false;
-
-// Variavel para armazenar a fila de requisições que falharam por token expirado
-
-let failedRequestQueue: {
-    // Se a requisição der sucesso, chama o onSuccess
-    onSuccess: (token: string) => void;
-    // Se a requisição der erro, chama o onFailure
-    onFailure: (err: AxiosError) => void;
-}[] = [];
-
 const axiosInstance = axios.create({
-    baseURL: URL_BASE
+	baseURL: URL_BASE
 });
 
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+	failedQueue.forEach(prom => {
+		if (error) {
+			prom.reject(error);
+		} else {
+			prom.resolve(token);
+		}
+	});
+
+	failedQueue = [];
+};
+
+
 axiosInstance.interceptors.request.use(
-    
-    (config) => {
 
-        const apiUser: ApiUser = getSession();
-        
-        if (apiUser) {
-            const token = apiUser.token;
-            config.headers['Authorization'] = 'Bearer ' + token
-        }
+	(config) => {
 
-        config.headers['Content-Type'] = 'application/json';
-        return config;
+		let urlRequest = config.url ?? "";
 
-    },
+		const PUBLIC_END_POINTS = [
+			"/auth/login",
+			"/auth/refresh-token",
+			"/customer/user",
+			"/product/all/home",
+			"/product/all/home*",
+			"/product/*/photo",
+		];
 
-    (error) => {
-        Promise.reject(error)
-    }
+		function matchPath(pattern: string, path: string) {
+			const regex = new RegExp('^' + pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*') + '$');
+			return regex.test(path);
+		}
+
+		let isAuthenticable = true;
+
+		for (const pattern of PUBLIC_END_POINTS) {
+			if (matchPath(pattern, urlRequest)) {
+				isAuthenticable = false;
+			}
+		}
+
+		if (isAuthenticable) {
+			const token = getTokenSession();
+			config.headers['Authorization'] = `Bearer ${token}`;
+		}
+
+		config.headers['Content-Type'] = 'application/json';
+		return config;
+
+	},
+
+	(error) => {
+		Promise.reject(error)
+	}
 )
-
 
 axiosInstance.interceptors.response.use(
 
-    (response) => {
+	(response) => {
+		// Se a requisição der sucesso, retorna a resposta
+		return response;
+	},
 
-      // Se a requisição der sucesso, retorna a resposta
+	async error => {
 
-      return response;
+		const originalRequest = error.config;
 
-    },
+		// Se a requisição der erro, verifica se o erro é de autenticação
+		if (error.response?.status === 401 && !originalRequest._retry) {
 
-    (error: AxiosError) => {
 
-      // Se a requisição der erro, verifica se o erro é de autenticação
-      console.log(error.response);
+			// Se o erro for de autenticação, verifica se o erro foi de token expirado
 
-      if (error.response?.status === 401) {
+			console.log('Refreahing token...');
 
-        const auth = useAuth();
-        const app = useAppShop();
-        // Se o erro for de autenticação, verifica se o erro foi de token expirado
-        console.log(error.response.data);
+			if (isRefreshing) {
 
-        if (error.response.data === "token") {
+				return new Promise((resolve, reject) => {
+					failedQueue.push({ resolve, reject });
+				})
+					.then((token) => {
+						originalRequest.headers['Authorization'] = `Bearer ${token}`;
+						return axiosInstance(originalRequest);
+					})
+					.catch(err => Promise.reject(err));
+			}
 
-          // Recupera o refresh token do localStorage
+			originalRequest._retry = true;
+			isRefreshing = true;
 
-          const refreshToken = localStorage.getItem("refreshToken");
+			try {
+				const response = await axiosInstance.post('/auth/refresh-token', { 'token': getTokenSession() });
+				const newToken = response.data.token;
+				setTokenSession(newToken);
 
-          // Recupera toda a requisição que estava sendo feita e deu erro para ser refeita após o refresh token
+				axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
 
-          const originalConfig = error.config;
+				processQueue(null, newToken);
+				return axiosInstance(originalRequest);
 
+			} catch (err) {
+				console.log('erro ao atualizar token', err);
+				processQueue(err, null);
+				return Promise.reject(err);
+			} finally {
+				isRefreshing = false;
+			}
 
-          // Verifica se já existe uma request de refreshToken acontecendo
+		}
 
-          if (!isRefreshing) {
+		return Promise.reject(error);
+	}
 
-            // Se não existir, inicia a requisição de refreshToken
-
-            isRefreshing = true;
-
-
-            // Faz uma requisição de refreshToken
-            app.setMessage("Refreshing token");
-            console.log('refresh token');
-            axiosInstance.post("/auth/refresh-token", {refreshToken,})
-
-              .then((response) => {
-
-                // Recupera os dados do response e cria o newRefreshToken por que já está sendo utilizado a variável refreshToken
-
-                const { token: newRefreshToken } = response.data.token as ApiToken;
-
-
-                // Salva o token no localStorage
-
-                localStorage.setItem("token", newRefreshToken);
-
-                // Salva o refreshToken no localStorage
-
-                localStorage.setItem("refreshToken", newRefreshToken);
-
-
-                // Define novamente o header de autorização nas requisições
-
-                axiosInstance.defaults.headers["Authorization"] = 'Bearer ' + newRefreshToken
-
-
-                // Faz todas as requisições que estavam na fila e falharam
-
-                failedRequestQueue.forEach((request) =>
-
-                  request.onSuccess(newRefreshToken)
-
-                );
-
-                // Limpa a fila de requisições que falharam
-
-                failedRequestQueue = [];
-
-              })
-
-              .catch((err) => {
-
-                // Retorna os erros que estão salvos na fila de requisições que falharam
-
-                failedRequestQueue.forEach((request) => request.onFailure(err));
-
-                // Limpa a fila de requisições que falharam
-
-                failedRequestQueue = [];
-
-
-                // Caso der erro desloga o usuário
-
-                 auth.SignOut();
-
-              })
-
-              .finally(() => {
-
-                // Indica que a requisição de refreshToken acabou
-                app.setMessage("");
-                isRefreshing = false;
-
-              });
-
-          }
-
-
-          // Usando a Promise no lugar do async await, para que a requisição seja feita após o refresh token
-
-          return new Promise((resolve, reject) => {
-
-            // Adiciona a requisição na fila de requisições que falharam com as informações necessárias para refazer a requisição novamente
-
-            failedRequestQueue.push({
-
-              // Se a requisição der sucesso, chama o onSuccess
-
-              onSuccess: (token: string) => {
-
-                // Adiciona o novo token gerado no refresh token no header de autorização
-                if (originalConfig) {
-                originalConfig.headers["Authorization"] = 'Bearer ' + token;
-
-
-                // Faz a requisição novamente passando as informações originais da requisição que falhou
-
-                resolve(axiosInstance(originalConfig));
-                }
-
-              },
-
-              // Se a requisição der erro, chama o onFailure
-
-              onFailure: (err: AxiosError) => {
-
-                // Se não for possivel refazer a requisição, retorna o erro
-
-                reject(err);
-
-              },
-
-            });
-
-          });
-
-        } else {
-
-          // Caso der erro desloga o usuário
-
-          auth.SignOut();
-
-        }
-
-      }
-
-
-      // Se não cair em nenhum if retorna um error padrão
-
-      return Promise.reject(error);
-
-    }
-
-  );
+);
 
 export default axiosInstance;
+
+
